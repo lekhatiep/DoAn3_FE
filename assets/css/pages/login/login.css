@@ -1,0 +1,17 @@
+.content__wrap {
+    margin: 20px;
+    display: flex;
+    justify-content: center;
+    background-color: whitesmoke;
+}
+
+.auth-form__socials {
+    background-color: #ffffff;
+    border-top: solid 1px #fc5c31;
+}
+
+.auth-form__socials-gg {
+    
+    border: 3px solid;
+    border-image: linear-gradient(to right, #f73e2f 10%, #f7b700 40%, #00a549 89%,#0082f1 25%) 4;
+}

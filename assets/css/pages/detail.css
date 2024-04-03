@@ -1,0 +1,38 @@
+
+
+.admin-product__detail{
+    display: flex;
+    justify-content: space-between;
+}
+
+.admin-product__detail-img{
+    max-width: 500px;
+
+}
+
+.admin-product-detail__img {
+    /* background-image: url('./../../images/default-image.jpg'); */
+    padding-top: 100%;
+    background-position: top center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+
+.admin-product__detail-img img{
+ 
+}
+
+.admin-product__list-info{
+    padding-left: 8px;
+}
+
+.admin-product__detail-group{
+
+}
+
+.admin-product__info-title{
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #25396f;
+}

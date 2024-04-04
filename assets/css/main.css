@@ -970,7 +970,7 @@
     align-items: center;
     background-color: rgba(0, 0, 0, 0.04);
     padding: 12px 22px;
-}
+} 
 
 .home-filter__label {
     font-size: 1.4rem;
@@ -980,7 +980,7 @@
 
 .home-filter__btn {
     min-width: 90px;
-    margin-right: 12px;
+    /* margin-right: 12px; */
 }
 
 .home-filter__btn:hover{

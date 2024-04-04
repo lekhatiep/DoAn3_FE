@@ -341,6 +341,7 @@ html {
     animation: fadeIn  linear 0.1s;
     display: flex;
 }
+
 .modal__message.open.close{
     /* animation: fadeIn  linear 0.1s; */
     display: flex;
@@ -349,19 +350,41 @@ html {
     transition: visibility 0s 1s, opacity 1s linear;
 }
 
-@media (min-width: 992px) and (max-width: 1199px) {
-    
+.margin-left-12 {
+    margin-left: 12px;
 }
-
+/* Desktop */
+@media (min-width: 992px) and (max-width: 1199px) {
+    .margin-bottom-12 {
+        margin-bottom: 12px;
+    }
+}
+/* Tablet */
 @media (min-width: 768px) and (max-width: 991px) {
     .hide-tablet {
         display: none !important;
     }
-}
 
+    .margin-bottom-12 {
+        margin-bottom: 12px;
+    }
+}
+/* Mobile */
 @media screen and (max-width: 767px) {
+    .hide-tablet {
+        display: none !important;
+    }
+    
     .hide-mobile {
         display: none !important;
+    }
+
+    .margin-bottom-12 {
+        margin-bottom: 12px;
+    }
+
+    .margin-bottom-12-mb {
+        margin-bottom: 12px;
     }
 
     .header__logo {
@@ -380,3 +403,4 @@ html {
         right: 16px !important;
     }
 }
+

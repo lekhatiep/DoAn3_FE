@@ -229,7 +229,7 @@ function renderProduct(products){
         }
 
         return `
-        <div class="grid__column-2-4">
+        <div class="col-3">
         <!-- Product item -->
         <a class="home-product-item" href="${URL_CLIENT_LOCAL}/pages/product/detail_client.html?id=${product.id}"> 
         <div class="home-product-item__img" 

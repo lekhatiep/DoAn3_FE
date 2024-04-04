@@ -257,10 +257,10 @@ function renderProduct(products){
                 </div>
                 <span class="home-product-item__sold">88 đã bán</span>
             </div>
-            <div class="home-product-item__origin">
+            <!-- <div class="home-product-item__origin">
                 <spam class="home-product-item__brand">Whoo</spam>
                 <span class="home-product-item__origin-name">Nhật Bản</span>
-            </div> 
+            </div> -->
             <div class="home-product__favourite">
                 <i class="home-product__favourite-icon fa-solid fa-check"></i>
                 <span>Yêu thích</span>

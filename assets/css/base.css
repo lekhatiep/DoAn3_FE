@@ -348,3 +348,35 @@ html {
     opacity: 0;
     transition: visibility 0s 1s, opacity 1s linear;
 }
+
+@media (min-width: 992px) and (max-width: 1199px) {
+    
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .hide-tablet {
+        display: none !important;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .hide-mobile {
+        display: none !important;
+    }
+
+    .header__logo {
+        width: 100px !important;
+    }
+
+    .header__search-history {
+        width: calc(100% + 24%) !important;
+    }
+
+    .header__cart {
+        width: 80px !important;
+    }
+
+    .header__cart-notice {
+        right: 16px !important;
+    }
+}

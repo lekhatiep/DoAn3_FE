@@ -379,6 +379,10 @@ html {
         display: none !important;
     }
 
+    .show-mobile {
+        display: block !important;
+    }
+
     .margin-bottom-12 {
         margin-bottom: 12px;
     }

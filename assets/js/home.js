@@ -45,6 +45,7 @@ var btnPagePrev = document.querySelector(".home-filter__page-control-prev");
 var btnPageNext = document.querySelector(".home-filter__page-control-next");
 var elInputPrice = document.querySelector(".select-input__label");
 var listHomeCategory = document.querySelector(".category-list");
+var listHomeCategorySmall = document.querySelector(".category-list-small>.row");
 var listFooterCategory = document.querySelector(".footer-list__category");
 var btnLogout = document.querySelector('.header__navbar-logout');
 var btnRegister = query(".header__navbar-register");
@@ -78,6 +79,7 @@ async function start() {
 
     handleGetListCategory(function(response){
         renderListCategory(response.data);
+        renderListCategorySmall(response.data);
     });
 
     // searchHeader('xe dap');
@@ -227,9 +229,9 @@ function renderProduct(products){
         }else{
             imgURL = '';
         }
-
+        
         return `
-        <div class="col-3">
+        <div class="col-lg-3 col-md-4 col-sm-6">
         <!-- Product item -->
         <a class="home-product-item" href="${URL_CLIENT_LOCAL}/pages/product/detail_client.html?id=${product.id}"> 
         <div class="home-product-item__img" 
@@ -463,6 +465,27 @@ function renderListCategory(categories) {
         })
     listHomeCategory.innerHTML = html.join(' ');
     listFooterCategory.innerHTML = htmlFooterCategory.join(' ');
+}
+
+//Render list category small
+function renderListCategorySmall(categories) {
+    var html = categories.map(function(category){
+        return `
+        <li class="col category-item-small category-item-small--active">
+        <a href="/pages/category/list-product.html?id=${category.id}" class="category-item-small__link" onclick="handleClickCategory(${category.id})" >${category.name}</a>
+    </li>    
+        `;
+    });
+
+    // var htmlFooterCategory = categories.map(category=>{
+    //     return `
+    //     <li class="footer-item">
+    //     <a href="" class="footer-item__link">${category.name}</a>
+    //     </li>
+    //     `
+    //     })
+    listHomeCategorySmall.innerHTML = html.join(' ');
+    // listFooterCategory.innerHTML = htmlFooterCategory.join(' ');
 }
 
 //handleClickCategory

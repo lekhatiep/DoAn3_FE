@@ -520,7 +520,7 @@
 
 .header__cart-wrap{
     position: relative;
-  
+    padding: 8px 0;  
 }
 
 .header__cart-link {

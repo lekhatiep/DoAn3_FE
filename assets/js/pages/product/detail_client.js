@@ -29,7 +29,9 @@ var btnAddToCart = $('.product__detail-add-cart');
 var cartNoticeNumber = $('.header__cart-notice');
 var paramId = url.searchParams.get("id");
 var productApi = "https://api.tipslife.site/api/Products";
-var cartApi = "https://localhost:5001/api/Carts";
+// var cartApi = "https://localhost:5001/api/Carts";
+// var cartApi = "https://localhost:5500/api/Carts";
+var cartApi = "https://api.tipslife.site/api/Carts";
 var listCartUl = $('.header__cart-list-item');
 var modal = $('.modal__message');
 var modalWrap = $('.modal__success-warp');
@@ -143,7 +145,7 @@ async function addTocart(){
         var data = {
             productId: infoProduct.id,
             price: infoProduct.price,
-            quantity: inputQuantity.value,
+            quantity: parseInt(inputQuantity.value),
             userId: userId,
         }
     
@@ -155,7 +157,7 @@ async function addTocart(){
             },
             body: JSON.stringify(data)
         }
-        
+        console.table(data.productId, data.price,typeof data.quantity, data.userId);
         fetch(cartApi, options)
             .then(response => 
                 response.json()
@@ -165,21 +167,21 @@ async function addTocart(){
                 renderListCart();
                 
             })
+            
             .catch((error) => {
                 console.log(error);
             })
-        
         
         modal.classList.add('open');   
         setTimeout(function(){
             modal.classList.add('close');  
             
-        }, 3000);
+        }, 2000);
      
         setTimeout(function(){
             modal.classList.remove('close');  
             modal.classList.remove('open');   
-        }, 5000);
+        }, 4000);
     }
 }
 

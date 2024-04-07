@@ -78,6 +78,10 @@ start();
 function renderListCartUser(){
 
     var data = JSON.parse(getCookie('listCart'));
+    // console.log(getCookie('listCart'));
+    // data.forEach((item, index)=>{
+    //     console.log(item.imgPath);
+    // })
     var contentCart = $('.content__cart-warp');
     var contentNoCart = $('.no-cart');
 
@@ -99,7 +103,7 @@ function renderListCartUser(){
             <input type="checkbox" class="content__cart-item-checkbox check-item-${index}" ${(item.active === true)? 'checked' :'' }>
             <div class="content__cart-item-info">
                 <a href="">
-                    <div class="content__cart-item-info-img" style="background-image: url(${URL_SERVER_LOCAL+ item.imgPath});"></div>
+                    <div class="content__cart-item-info-img" style="background-image: url('${item.imgPath}');"></div>
                 </a>
                 <div class="content__cart-wrap-title">
                     <a href="" class="content__cart-item-info-title">                  

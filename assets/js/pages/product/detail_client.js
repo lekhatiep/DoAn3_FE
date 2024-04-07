@@ -29,8 +29,6 @@ var btnAddToCart = $('.product__detail-add-cart');
 var cartNoticeNumber = $('.header__cart-notice');
 var paramId = url.searchParams.get("id");
 var productApi = "https://api.tipslife.site/api/Products";
-// var cartApi = "https://localhost:5001/api/Carts";
-// var cartApi = "https://localhost:5500/api/Carts";
 var cartApi = "https://api.tipslife.site/api/Carts";
 var listCartUl = $('.header__cart-list-item');
 var modal = $('.modal__message');
@@ -141,7 +139,7 @@ async function addTocart(){
     }else{
         
         var userId = parseInt(getCookie('userId'));
-        
+        // console.log(getCookie('listCart'));
         var data = {
             productId: infoProduct.id,
             price: infoProduct.price,

@@ -49,7 +49,7 @@ export default async function renderListCart(){
         var html = data.map((item) =>{
             return `
             <li class="header__cart-item">
-            <img src="${URL_SERVER_LOCAL + item.imgPath}" alt="" class="header__cart-item-img">
+            <img src="${item.imgPath}" alt="" class="header__cart-item-img">
             <div class="header__cart-item-info">
                 <div class="header__cart-item-head">
                     <h5 class="header__cart-item-name">${item.title}</h5>

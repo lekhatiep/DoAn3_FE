@@ -58,14 +58,11 @@ start();
         })
         .then((res)=>{
             if(res.status === 404){
-                modal.classList.add('open');
+               modal.classList.add('open');
             }else{
                 setCookie('listCart',JSON.stringify(res),30)
                 renderListCartUser();
-            }
-           
-           
-            
+            }    
         })
         .catch(er=>{
             console.log(er);
@@ -75,7 +72,6 @@ start();
 function renderListCartUser(){
 
     var data = JSON.parse(getCookie('listCart'));
-
     if(data === null || data.length === 0){
         console.log('no cart')
         modal.classList.add('open');
@@ -212,7 +208,7 @@ btnSubmitOrder.onclick = function(){
         body: JSON.stringify(data)
     }
     
-    fetch(orderApi +'/checkout', options)
+    fetch(orderApi +'/Checkout', options)
         .then(response => {
             if(response.status === 200){
                 deleteCookie("listCart");

@@ -9,8 +9,10 @@ function setCookie(cname, cvalue, exdays) {
     
 function getCookie(cname) {
     let name = cname + "=";
-    let decodedCookie = decodeURIComponent(document.cookie);
-    let ca = decodedCookie.split(';');
+    //if use this 2 lines below, link image of the goods will be wrong and can appear
+    // let decodedCookie = decodeURIComponent(document.cookie);
+    // let ca = decodedCookie.split(';');
+    let ca = document.cookie.split(';');
     for(let i = 0; i < ca.length; i++) {
         let c = ca[i];
         while (c.charAt(0) == ' ') {

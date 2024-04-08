@@ -1,6 +1,7 @@
 export {
     URL_CLIENT_LOCAL,
     URL_SERVER_LOCAL,
+    URL_HOSTING_LOCAL,
     PAGE_NUMBER_DEFAULT,
     PAGE_SIZE_DEFAULT,
     query,

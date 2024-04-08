@@ -1,4 +1,4 @@
-import {URL_CLIENT_LOCAL, URL_SERVER_LOCAL} from '../../const.js'
+import {URL_CLIENT_LOCAL, URL_HOSTING_LOCAL, URL_SERVER_LOCAL} from '../../const.js'
 import  {setCookie,getCookie, deleteCookie} from '../../storeCookie.js';
 import  {setSession,getSession} from '../../storeSession.js';
 import {checkLogin, autoRedirect} from '../../checkLogged.js'
@@ -234,7 +234,7 @@ btnOrderInfoBtn.onclick = (event) => {
 // Handle onclick btn info
 
 btnOrderSuccess.onclick = (event) => {
-    window.location.href = URL_CLIENT_LOCAL + "/pages/purchase";
+    window.location.href = URL_HOSTING_LOCAL + "/pages/purchase";
 }
 
 //Handle click logOut

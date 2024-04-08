@@ -1,5 +1,5 @@
 import {getCookie, setCookie} from '../../storeCookie.js';
-import {URL_SERVER_LOCAL, URL_CLIENT_LOCAL} from '../../const.js'
+import {URL_SERVER_LOCAL, URL_HOSTING_LOCAL, URL_CLIENT_LOCAL} from '../../const.js'
 
 var cartApi = URL_SERVER_LOCAL + "/api/Carts";
 var viewCartBtn = document.querySelector('.header__cart-view-cart');
@@ -109,7 +109,7 @@ window.removeFromCart = async function(id){
 }
 
 viewCartBtn.onclick = function(){
-    window.location.href = `${URL_CLIENT_LOCAL}/pages/cart`;
+    window.location.href = `${URL_HOSTING_LOCAL}/pages/cart`;
 }
 
 //Get list cart

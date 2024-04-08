@@ -1,4 +1,4 @@
-import {URL_CLIENT_LOCAL, URL_SERVER_LOCAL} from '../../const.js'
+import {URL_CLIENT_LOCAL,URL_HOSTING_LOCAL, URL_SERVER_LOCAL} from '../../const.js'
 import  {setCookie,getCookie} from '../../storeCookie.js';
 import  {setSession,getSession} from '../../storeSession.js';
 import {checkLogin, autoRedirect} from '../../checkLogged.js'
@@ -407,7 +407,7 @@ headerCheckAll.onchange = function(){
 //Hanlde click btn purchase 
 btnPurchase.onclick = function(){
 
-    window.location.href = `${URL_CLIENT_LOCAL}/pages/order`;
+    window.location.href = `${URL_HOSTING_LOCAL}/pages/order`;
 }
 
 //Handle click logOut

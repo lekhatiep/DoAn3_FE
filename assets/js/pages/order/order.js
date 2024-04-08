@@ -97,7 +97,7 @@ function renderListCartUser(){
             </div>
             <div class="order__item-info-wrap">
                 <div class="order__item-info">
-                    <div class="order__item-info-img" style="background-image: url('${URL_SERVER_LOCAL + item.imgPath}')">
+                    <div class="order__item-info-img" style="background-image: url('${item.imgPath}')">
                     </div>
                     <div class="order__item-info-title">
                         <span class="order__item-info-title-text">

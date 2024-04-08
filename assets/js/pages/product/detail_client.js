@@ -174,12 +174,12 @@ async function addTocart(){
         setTimeout(function(){
             modal.classList.add('close');  
             
-        }, 2000);
+        }, 1000);
      
         setTimeout(function(){
             modal.classList.remove('close');  
             modal.classList.remove('open');   
-        }, 4000);
+        }, 2000);
     }
 }
 

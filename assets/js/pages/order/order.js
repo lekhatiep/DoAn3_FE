@@ -228,7 +228,7 @@ btnSubmitOrder.onclick = function(){
 // Handle onclick btn info
 
 btnOrderInfoBtn.onclick = (event) => {
-    window.location.href = URL_CLIENT_LOCAL ;
+    window.location.href = URL_HOSTING_LOCAL ;
 }
 
 // Handle onclick btn info

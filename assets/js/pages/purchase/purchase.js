@@ -1,4 +1,4 @@
-import {URL_CLIENT_LOCAL, URL_SERVER_LOCAL} from '../../const.js'
+import {URL_CLIENT_LOCAL, URL_HOSTING_LOCAL, URL_SERVER_LOCAL} from '../../const.js'
 import  {setCookie,getCookie} from '../../storeCookie.js';
 import  {setSession,getSession} from '../../storeSession.js';
 import {checkLogin, autoRedirect} from '../../checkLogged.js';
@@ -178,7 +178,7 @@ function renderPurchaseItem(data) {
     
                 <div class="purchase__item-content">
                     <div class="item__info">
-                        <div class="item__info-img" style="background-image: url('${URL_SERVER_LOCAL+ item.imgPath}') ;"></div>
+                        <div class="item__info-img" style="background-image: url('${item.imgPath}') ;"></div>
                         <div class="item__info-details">
                             <div class="item__info-title">${item.title}</div>
                             <div class="item__info-type">Phân loại:</div>
@@ -238,7 +238,7 @@ function HandleListItem(){
         btnReorder.onclick = ()=>{
             var productId = btnReorder.dataset.id;
 
-            window.location.href = URL_CLIENT_LOCAL + '/pages/product/detail_client.html?id='+productId;
+            window.location.href = URL_HOSTING_LOCAL + '/pages/product/detail_client.html?id='+productId;
 
         }
     });

@@ -1,5 +1,6 @@
 import {
     URL_SERVER_LOCAL,
+    URL_HOSTING_LOCAL,
     PAGE_NUMBER_DEFAULT,
     PAGE_SIZE_DEFAULT,
     query,
@@ -233,7 +234,7 @@ function renderProduct(products){
         return `
         <div class="col-lg-3 col-md-4 col-sm-6">
         <!-- Product item -->
-        <a class="home-product-item" href="${URL_CLIENT_LOCAL}/pages/product/detail_client.html?id=${product.id}"> 
+        <a class="home-product-item" href="${URL_HOSTING_LOCAL}/pages/product/detail_client.html?id=${product.id}"> 
         <div class="home-product-item__img" 
             style="background-image: url('${
                 //URL_SERVER_LOCAL +'/'+ imgURL

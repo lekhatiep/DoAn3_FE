@@ -20,7 +20,7 @@ const URL_CLIENT_LOCAL = "http://127.0.0.1:5500";
 // const URL_HOSTING_LOCAL = "https://do-an3-fe.vercel.app";
 const URL_HOSTING_LOCAL = URL_CLIENT_LOCAL;
 // URL Production
-const URL_SERVER_LOCAL = "https://localhost:5001";
+const URL_SERVER_LOCAL = "https://api.tipslife.site";
 
 //Product
 const PAGE_NUMBER_DEFAULT = 1;

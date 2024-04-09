@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="../../assets/vendors/bootstrap-icons/bootstrap-icons.css">
     <link rel="stylesheet" href="../../assets/css/app.css">
     <link rel="stylesheet" href="../../assets/css/pages/product.css">
+    <link rel="stylesheet" href="../../assets/css/pages/detail.css">
     <link rel="shortcut icon" href="../../assets/images/favicon.svg" type="image/x-icon">
     <!-- <link rel="stylesheet" href="../../assets/css/base.css"> -->
     <!-- <link rel="stylesheet" href="../../assets/css/main.css"> -->
@@ -412,15 +413,29 @@
                         </div>
                     </div>
                 </div>
-                <section class="section admin-product-edit">
+                <section class="section admin-product-edit">                   
                     <div class="card">
                         <div class="card-header">
                             <h4 class="card-title">Sửa Sản phẩm</h4>                           
                         </div>
+
                         <div class="card-body">
+                          
                             <form class="form form-horizontal" id="admin-product__form-edit" >
                                 <div class="form-body">
                                     <div class="row">
+                                        <div class="col-md-2 admin-product__detail-img">
+                                            <div class="admin-product-detail__img"></div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label>Loại </label>
+                                        </div>
+                                        <div class="col-md-8 form-group">
+                                            <select class="form-control" id="categories" multiple>
+                                            </select>
+                                        </div>
                                         <div class="col-md-4">
                                             <label>Code</label>
                                         </div>
@@ -489,7 +504,7 @@
     <script src="../../assets/js/bootstrap.bundle.min.js"></script>
 
     <script src="../../assets/js/main.js"></script>
-    <script src="../../assets/js/pages/product/edit.js"></script>
+    <script type="module" src="../../assets/js/pages/product/edit.js"></script>
 
 </body>
 

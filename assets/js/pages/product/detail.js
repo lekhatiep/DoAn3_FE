@@ -41,7 +41,7 @@ function handleGetInfoProduct(){
             quantity.innerText = response.quantity;
             description.innerText = response.description;
 
-            var link =  `url('${URL_SERVER_LOCAL + response.imagePath}')`;
+            var link =  `url('${response.imagePath}')`;
             imageDetail.style.backgroundImage = link
         })
 }

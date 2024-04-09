@@ -5,12 +5,17 @@ import {
     Routes,
     Permissions
 } from "../../const.js";
-import {checkLogin} from '../../checkLogged.js'
-import checkPermission from '../../checkPermission.js';
+import { 
+    numberWithCommas, 
+    stringOfOrderStatus,
+    colorOrderStatus
+} from "../../commons.js"
+import {checkLogin,autoRedirect} from '../../checkLogged.js'
+
 
 //Const
 const serverURL = URL_SERVER_LOCAL;
-const productApi = URL_SERVER_LOCAL+"/api/Products";
+const orderApi = URL_SERVER_LOCAL+"/api/Orders";
 const userApi = URL_SERVER_LOCAL+"/api/Users";
 //Variables
 var pageNumber = 1;
@@ -19,21 +24,21 @@ var totalPages = 0;
 var page = 1;
 var infoPage ={};
 
-var listProductBlock = document.querySelector("#list-products")
+var listProductBlock = query("#list-products")
 var ulTag = document.querySelector(".pagination");
 var routePage = location.pathname;
+var redirectFrom = location.pathname;
+var accessToken = '';
+var infoLogged = {};
 //Start 
 async function start(){
     //Check authen
     var infoLog = await checkLogin();
-    if(infoLog.isLogged){
-        //Check permission
-        var createProductRoute = Routes.Products.get;
-        var getProductPermission = Permissions.Product.Get
-
-        await checkPermission(routePage,createProductRoute,getProductPermission);
+    if(!infoLog.isLogged){
+        autoRedirect(redirectFrom);
+       
     }else{
-        console.log("Not logged");
+        accessToken = infoLog.accessToken;
     }
 
     handleGetDefaultPage().then(response =>{     
@@ -45,50 +50,57 @@ async function start(){
 }
 
 
-start();
+await start();
 
 //Functions
-function getProducts(callback){
+function renderOrder(orders){
 
-    fetch(productApi + `?pageNumber=${pageNumber}&pageSize=${pageSize}`)
-        .then(function(response){
-            return response.json();_
-        })
-        .then(callback);
-}
+    
+    var htmls = orders.map(function(order){
 
-function renderProduct(products){
-    var htmls = products.map(function(product){
+        var m = new Date(order.createTime);
+        var dateString = 
+        ("0" + m.getUTCHours()).slice(-2) + ":" +
+        ("0" + m.getUTCMinutes()).slice(-2) + ":" +
+        ("0" + m.getUTCSeconds()).slice(-2) + " " +
+        ("0" + (m.getUTCMonth()+1)).slice(-2) + "/" +
+        ("0" + m.getUTCDate()).slice(-2) + "/" +
+        m.getUTCFullYear() ;
 
-        var imagePath = '';
-        if(product.productImages.length !== 0){
-            imagePath =  product.productImages[0].imagePath;
-        }else{
-            imagePath = '';
-        }
-        
+        var color = colorOrderStatus(order.status);
+
         return `
-        <tr class="admin-product__data-${product.id}">
-            <td class="text-bold-500 admin-product-table__col-text">${product.title}</td>
-            <td class="admin-product-table__col-price">${product.price}đ</td>
-            <td class="admin-product-table__col-img">
-                <div class="admin-product-table__img" style="background-image: url('${imagePath}')"></div>
+       
+        <tr >
+            <td class="text-bold-500 col-md-2">${dateString}</td>
+            <td class="admin-product-table__col-price">${numberWithCommas(order.grandTotal)} đ</td>
+            <td class="admin-product-table__col-price">
+                <div style="font-weight: bold;color:${colorOrderStatus(order.status)}">
+                     ${stringOfOrderStatus(order.status)}
+                </div>                
             </td>
-            <td>${Math.floor(product.price - (product.price * 0.4))}</td>
-            <td class="text-bold-500">${product.quantity}</td>
+            <td>${order.id}</td>
+            <td>[${order.userId}]-${order.userName}</td>
             <td>
                 <ul class="admin-product-table__list">
-                    <li class="admin-product-table__list-item admin-product-table__item-edit" data-id = ${product.id} onclick="handleUpdate(${product.id})">
-                        <a href="/pages/product/detail.html?id=${product.id}" class="admin-product-table__link">
+                    <li class="admin-product-table__list-item" onclick="modalUpdateStatusOrder(${order.id}, ${order.status})">
+                        <a href="#" >
+                            <i class="admin-product-table__icon-add fa-solid fa fa-cog"></i>
+                            Cập nhập trạng thái
+                        </a>
+                           
+                    </li>
+                    <li class="admin-product-table__list-item" onclick="modalListOrderDetails(${order.id})">
+                        <a href="#" class="admin-product-table__link" >
                             <i class="admin-product-table__icon-detail fa-solid fa-circle-info"></i>
-                                                                Chi tiết sản phẩm
+                            Chi tiết đơn hàng
                         </a>
                     </li>
-                    <li class="admin-product-table__list-item" onclick ="handleDelete(${product.id});" >
-                        <div class="admin-product-table__link">
+                    <li class="admin-product-table__list-item" onclick ="handleDeleteOrder(${order.id});">
+                        <a href="#" class="admin-product-table__link">
                             <i class="admin-product-table__icon-del fa-solid fa-trash-can"></i>
-                            Xóa
-                        </div>
+                            Xóa đơn
+                        </a>
                     </li>
                 </ul>
             </td>
@@ -100,9 +112,9 @@ function renderProduct(products){
 }
 
 // Handle Delete
-window.handleDelete = function(id){
+window.handleDeleteOrder = function(id){
 
-    var msg = "Bạn có muốn xóa sản phẩm này không?"
+    var msg = "Bạn có muốn xóa đơn này không?"
     if(!confirm(msg)){
 
         return;
@@ -112,12 +124,10 @@ window.handleDelete = function(id){
         method: 'DELETE',
     };
 
-    fetch(productApi + "/" +id, options)
+    fetch(orderApi + "/" +id, options)
         .then(function (response) {
             if(response.status === 200){
-                var itemProduct = document.querySelector(".admin-product__data-" +id);
                 
-                itemProduct.remove();
                 alert("Xóa thành công")
             } 
         })
@@ -125,6 +135,7 @@ window.handleDelete = function(id){
             return response ? JSON.parse(response) : {};
         })
         .catch(err => {
+            //location.reload();
             console.log(err);
         })
         
@@ -132,8 +143,13 @@ window.handleDelete = function(id){
 
 //Handle get default page
 function handleGetDefaultPage(){
-
-    return fetch(productApi + `?pageNumber=${pageNumber}&pageSize=${pageSize}`)
+    var options = {
+        method: 'GET',
+        headers: {
+            'Authorization' : `Bearer ${accessToken}`
+        }
+    }
+    return fetch(orderApi + `/GetListOderPaging?pageNumber=${pageNumber}&pageSize=${pageSize}`,options)
         .then(function(response){
             return response.json();_
         })
@@ -151,13 +167,20 @@ function handleGetDefaultPage(){
 
 //Pagination
 window.Pagination = function (totalPages,page){
+    page =1;
+    var options = {
+        method: 'GET',
+        headers: {
+            'Authorization' : `Bearer ${accessToken}`
+        }
+    }
 
-    fetch(productApi + `?pageNumber=${page}&pageSize=${pageSize}`)
+    fetch(orderApi + `/GetListOderPaging?pageNumber=${page}&pageSize=${pageSize}`,options)
     .then(function(response){
         return response.json();_
     })
     .then(response =>{
-        renderProduct(response.data)
+        renderOrder(response.data)
         renderNavigationPaging(totalPages,page);
     })
 }
@@ -269,35 +292,103 @@ function renderNavigationPaging(totalPages,page){
     ulTag.innerHTML = liTag;
 } 
 
-async function handleCheckPermissionPage(accessToken){
+window.modalUpdateStatusOrder = function(orderId){
+    var modalStatusOrder = document.getElementById("modalStatusOrder");
+    var myModal = new bootstrap.Modal(document.getElementById("modalStatusOrder"), {});
 
-    console.log("check permission this page");
+    modalStatusOrder.setAttribute("orderId", orderId);
+    myModal.show();
 
-    var createProductRoute = Routes.Products.get;
-    var getProductPermission = Permissions.Product.Delete
+}
 
-    console.log(createProductRoute);
-    console.log(routePage);
+window.saveStatusOrder = function(){
+    var modalStatusOrder = document.getElementById("modalStatusOrder");
+    var orderId = modalStatusOrder.getAttribute("orderId");
+    var status = document.querySelector("#modalStatusOrder #status");
+
+    console.log(status);
+    var options = {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization' : `Bearer ${accessToken}`
+        },
+        body: status.value
+    }
+
+    fetch(orderApi + `/UpdateStatusOrder/${orderId}`,options)
+    .then(function(response){
+        return response;_
+    })
+    .then(response =>{
+        location.reload();
+    })
+}
+
+window.modalListOrderDetails = function(orderId){
+    var modalStatusOrder = document.getElementById("modalListOrderDetails");
+    var myModal = new bootstrap.Modal(document.getElementById("modalListOrderDetails"), {});
+    
 
 
-    if(createProductRoute === routePage){
-        var userPermissions = await fetch(userApi+"/GetUserPermission/2", {
+    if(modalStatusOrder){
+        console.log(2222);
+        var options = {
+            method: 'GET',
             headers: {
-                "Authorization": "Bearer " + accessToken
-            }
-        })
-        .then(function(response) {
+                'Authorization' : `Bearer ${accessToken}`
+            },
+        }
+    
+        fetch(orderApi + `/GetDetailOrder?id=${orderId}`,options)
+        .then(function(response){
             return response.json();
         })
-        .then(function(response) {
-            console.log(response);
-            return response;
-        })
-        console.log(userPermissions);
-        var isAuthorize = userPermissions.some(function(permission) {
-            return permission === getProductPermission;
-        });
-
-        console.log(isAuthorize);
+        .then(response =>{
+            renderModalStatusOrder(response);
+            myModal.show();
+        })     
+       
     }
+
+}
+
+function renderModalStatusOrder(data){
+    var listOrdeDetailBlock =  query("#modalListOrderDetails #list-order-details")
+    console.log(data);
+
+   
+   var htmls = data.map(function(orderDetail){
+    var m = new Date(orderDetail.createTime);
+    var dateString = 
+    ("0" + m.getUTCHours()).slice(-2) + ":" +
+    ("0" + m.getUTCMinutes()).slice(-2) + ":" +
+    ("0" + m.getUTCSeconds()).slice(-2) + " " +
+    ("0" + (m.getUTCMonth()+1)).slice(-2) + "/" +
+    ("0" + m.getUTCDate()).slice(-2) + "/" +
+    m.getUTCFullYear() ;
+        return `
+        <tr class="admin-product__data-${orderDetail.id}">
+        <td>${dateString}</td>
+        <td class="admin-product-table__col-img">
+            <div class="admin-product-table__img" style="background-image: url('${orderDetail.imgPath}')"></div>
+            <span>${orderDetail.title}</span>
+        </td>
+        <td class="text-bold-500">${orderDetail.quantity}</td>
+        <td class="text-bold-500 admin-product-table__col-text">${orderDetail.price}</td>
+        <td class="text-bold-500 admin-product-table__col-text">${orderDetail.discount}</td>
+        <td class="admin-product-table__col-price">
+            <span class="text-danger">${numberWithCommas(orderDetail.total)}đ</span> 
+        </td>
+       
+        <td></td>
+        <td>
+        
+        </td>
+    </tr>
+        
+    `
+   });
+
+   listOrdeDetailBlock.innerHTML = htmls.join('');
 }

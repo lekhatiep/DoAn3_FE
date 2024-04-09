@@ -22,12 +22,12 @@ var noContentTab = $('.purchase__no-content');
 var btnLogout = $('.header__navbar-logout');
 
 var statusOrder = {
-    all : 'all',
-    confirm: 'Confirm',
-    waiting: 'Processing',
-    shipping : 'Shipping',
-    delivered: 'Delivered',
-    cancel : 'Cancel',
+    all : 0,
+    confirm: 1,
+    waiting: 2,
+    shipping : 3,
+    delivered: 4,
+    cancel : 5,
 }
 var idTabActive = '';
 var accessToken = '';
@@ -117,12 +117,9 @@ function openTab(event, tabName) {
 
 function getListPurchaseWithStatus(status){
 
-    console.log('status: '+status);
-
     // string
-    // fetch(orderApi + `/HistoryOrderByUser?status=${status}`, {
-    //number
-    fetch(orderApi + `/HistoryOrderByUser?status=0`, {
+     fetch(orderApi + `/HistoryOrderByUser?status=${status}`, {
+   
         headers: {
             'Authorization' : `Bearer ${accessToken}`
         },
@@ -239,8 +236,7 @@ function HandleListItem(){
 
 
         var btnReorder = $('.reoder-'+index);
-        console.log(btnReorder);
-
+    
         btnReorder.onclick = ()=>{
             var productId = btnReorder.dataset.id;
 

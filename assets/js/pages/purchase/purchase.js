@@ -119,7 +119,10 @@ function getListPurchaseWithStatus(status){
 
     console.log('status: '+status);
 
-    fetch(orderApi + `/HistoryOrderByUser?status=${status}`, {
+    // string
+    // fetch(orderApi + `/HistoryOrderByUser?status=${status}`, {
+    //number
+    fetch(orderApi + `/HistoryOrderByUser?status=0`, {
         headers: {
             'Authorization' : `Bearer ${accessToken}`
         },
@@ -127,6 +130,9 @@ function getListPurchaseWithStatus(status){
         .then(response=>{
             return response.json();
         })
+        // .then(data=>{
+        //     console.log(data);
+        // })
         .then((res)=>{
             renderPurchaseItem(res); 
         })

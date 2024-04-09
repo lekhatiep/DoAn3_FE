@@ -1,5 +1,9 @@
+import {getCookie} from '../../../js/storeCookie.js';
+import {URL_SERVER_LOCAL, query} from '../../const.js'
 //URL API
-var productApi = "https://localhost:5001/api/Products";
+var productApi = URL_SERVER_LOCAL +"/api/Products";
+var categoryApi = URL_SERVER_LOCAL + "/api/Categories";
+var access_token = getCookie('access_token');
 //Element Selector
 var formEdit = document.querySelector("#admin-product__form-edit");
 var code = document.querySelector('input[name="code"]');
@@ -10,6 +14,9 @@ var description = document.querySelector('textarea[name="description"]');
 var formEdit = document.querySelector("#admin-product__form-edit");
 var createBtn = document.querySelector("#admin-product__form-btn-save");
 var image = document.querySelector('input[type="file"]')
+var imageDetail = document.querySelector('.admin-product-detail__img')
+var categories = query("#categories");
+
 
 //Variables
 const url = new URL(window.location.href);
@@ -31,9 +38,11 @@ formEdit.onsubmit = function(e) {
 }
 
 function start() {
+    
     handleUpdate(paramId);
 
     handleSaveForm(data);
+    loadListCategory();
 }
 
 
@@ -54,8 +63,9 @@ function handleUpdate(id){
         price.value = responseData.price;
         quantity.value = responseData.quantity;
         description.value = responseData.description;
+        imageDetail.style.backgroundImage =  `url(${responseData.imagePath})`;
 
-        console.log(responseData)
+        console.log(responseData);
     })
 
 }
@@ -90,6 +100,9 @@ function handleSaveForm(){
 function saveProduct(formData){
     var options = {
     method: 'PUT',
+    headers: {
+        'Authorization' : `Bearer ${access_token}`
+    },
     body: formData
     };
 
@@ -99,7 +112,7 @@ function saveProduct(formData){
             throw new Error('Bad status code from server.');
         }
         alert("Sua thanh cong")
-        //return response.json();
+        history.back()
         return response.text();//because not response data in body
     })
     .then((data) => {
@@ -108,105 +121,58 @@ function saveProduct(formData){
     .catch((error) => {
         console.log(error);
     })
+
+
+    updateCategory(data.id);
 }
 
-
-
-
-// //Handle Update
-
-// var mainElement =  $("#main");
-// var btnLoad = document.querySelector("#load-edit");
-// function handleUpdate(id){     
-//         $(document).ready(function(){
-//             mainElement.load("edit.html", function(responseTxt, statusTxt, xhr){
-//             if(statusTxt == "success"){
-
-//                 var code = document.querySelector('input[name="code"]');
-//                 var title = document.querySelector('input[name="title"]');
-//                 var price = document.querySelector('input[name="price"]');
-//                 var quantity = document.querySelector('input[name="quantity"]');
-//                 var description = document.querySelector('textarea[name="description"]');
-//                 var formEdit = document.querySelector("#admin-product__form-edit");
-
-//                 formEdit.onsubmit = function(e) {
-//                     e.preventDefault();
-//                 }
-
-//                 fetch(productApi + '/' + id)
-//                     .then(function (response){
-//                         return response.json();
-//                     })
-//                     .then(function (responseData){                       
-//                         console.log(responseData);
-//                         code.value = responseData.code;
-//                         title.value = responseData.title;
-//                         price.value = responseData.price;
-//                         quantity.value = responseData.quantity;
-//                         description.value = responseData.description;
-
-//                         var data = {
-//                             id : responseData.id,
-//                             code : code.value,
-//                             title: title.value,
-//                             price: price.value,
-//                             quantity: quantity.value,
-//                             description: description.value
-//                         };
-
-//                         handleSaveForm(data);
-
-//                     })
-
-//             }
-            
-//             if(statusTxt == "error")
-//             console.log("Error: " + xhr.status + ": " + xhr.statusText);
-//             });
-        
-//         });
-// }
-
-// //Function handle create form
-// function handleSaveForm(data){
-//     var createBtn = document.querySelector("#admin-product__form-btn-save");
-
-//     console.log(data);
-//     createBtn.onclick = function(){
-//         createProduct(data,function(products){
-//             console.log(products);
-//         });
-//     }
-
-// }
-
-// //Function create product
-
-// function createProduct(data,callback){
-//     var options = {
-//         method: 'PUT',
-//         headers: {
-//             'Content-Type': 'application/json',
-//         },
-//         body: JSON.stringify(data)
-//     };
-
-//     fetch(productApi + "/" + data.id ,options)
-//     .then(function(response) {
-//         if (!response.ok) {
-//             throw new Error('Bad status code from server.');
-//         }
+function loadListCategory(){
     
-//         //return response.json();
-//         return response.json();//because not response data in body
-//         })
-//         .then((data) => {
-//             return data ? JSON.parse(data) : {}
-//         })
-//         .catch((error) => {
-//             console.log(error);
-//         })
-// }
-    
+    var htmls = '';
 
+    fetch(categoryApi +"?pageNumber=1&pageSize=20")
+        .then(function(response){
+            return response.json();
+        })
+        .then(response => {
+            console.log(response.data);
+
+            htmls = response.data.map(cat =>{
+                return `
+                    <option value='${cat.id}'>${cat.name}</option>
+                `;
+            });
+            categories.innerHTML = htmls;
+        })
+}
+
+function updateCategory(productId){
+
+    var options = categories.selectedOptions;
+    var categoryIds = Array.from(options).map(({value})=> parseInt(value));
+    console.log(categoryIds);
+    var options = {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization' : `Bearer ${access_token}`
+        },
+        body: JSON.stringify(categoryIds)
+        };
+    
+        fetch(categoryApi + "/UpdateCategoryOfProduct?productID=" + productId ,options)
+        .then(function(response) {
+            if (!response.ok) {
+                throw new Error('Bad status code from server.');
+            }
+            //return response.json();
+            return response.text();//because not response data in body
+        })
+        .then((data) => {
+            return data ? JSON.parse(data) : {}
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+}
 

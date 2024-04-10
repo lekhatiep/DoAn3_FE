@@ -10,7 +10,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../../assets/css/bootstrap.css">
     <link rel="stylesheet" href="../../assets/fonts/fontawesome-free-6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="../../assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
     <link rel="stylesheet" href="../../assets/vendors/bootstrap-icons/bootstrap-icons.css">
     <link rel="stylesheet" href="../../assets/css/app.css">
     <link rel="stylesheet" href="../../assets/css/pages/product.css">
@@ -44,19 +43,19 @@
                                 <span>Dashboard</span>
                             </a>
                         </li>
-                        <li class="sidebar-item active ">
+                        <li class="sidebar-item ">
                             <a href="../product/index.html" class='sidebar-link'>
                                 <i class="bi bi-grid-fill"></i>
-                                <span>Sản phẩm</span>
+                                <span>Product</span>
                             </a>
                         </li>
                         <li class="sidebar-item ">
                             <a href="../order/admin_order.html" class='sidebar-link'>
                                 <i class="bi bi-grid-fill"></i>
-                                <span>Đơn Hàng</span>
+                                <span>Đơn hàng</span>
                             </a>
                         </li>
-                        <li class="sidebar-item ">
+                        <li class="sidebar-item active ">
                             <a href="../category/admin_category.html" class='sidebar-link'>
                                 <i class="bi bi-grid-fill"></i>
                                 <span>Thể loại</span>
@@ -78,8 +77,7 @@
                 <div class="page-title">
                     <div class="row">
                         <div class="col-12 col-md-6 order-md-1 order-last">
-                            <h3>Danh sách sản phẩm</h3>
-                            <p class="text-subtitle text-muted">Danh sách sản phẩm </p>
+                            <h3>Danh sách loại</h3>
                         </div>
                         <div class="col-12 col-md-6 order-md-2 order-first">
                             <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
@@ -94,10 +92,10 @@
                 <section class="section admin-product-table">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">Danh sách sản phẩm</h4>
-                            <a href="/pages/product/create.html" class="admin-product__link" >
+                   
+                            <a href="#" class="admin-product__link" onclick="modalAddNewCat()" >
                                 <i class="admin-product-table__icon-add fa-solid fa-circle-plus"></i>
-                                Thêm 1 sản phẩm mới
+                                Thêm loại mới
                             </a>
                         </div>
                         <div class="card-body">
@@ -106,34 +104,23 @@
                                     <table class="table table-striped mb-0">
                                         <thead>
                                             <tr>
-                                                <th>Tên sản phẩm</th>
-                                                <th>Giá</th>
-                                                <th>Ảnh đại diện</th>
-                                                <th>Giá bán hiện tại </th>
-                                                <th>Số lượng</th>
+                                                <th>Ngày tạo</th>
+                                                <th>Mã loại</th>
+                                                <th>Tên loại</th>
                                                 <th>Chức năng</th>
                                             </tr>
                                         </thead>
-                                        <tbody id ="list-products">
-                                                <td class="text-bold-500 admin-product-table__col-text">Áo thun nam nữ, Áo thun nam nữ, Áo thun nam nữ  </td>
-                                                <td class="admin-product-table__col-price">1.200.000 đ</td>
-                                                <td class="admin-product-table__col-img">
-                                                    <div class="admin-product-table__img" style="background-image: url('../../assets/images/default-image.jpg')"></div>
-                                                </td>
-                                                <td>900.000</td>
-                                                <td class="text-bold-500">0</td>
+                                        <tbody id ="list-cats">
+                                            <tr>
+                                                <td class="text-bold-500 col-md-2">4/5/2023 12:30pm  </td>
+                                                <td class="admin-product-table__col-price">1</td>
+                                                <td class="admin-product-table__col-price">TEST</td>
                                                 <td>
                                                     <ul class="admin-product-table__list">
                                                         <li class="admin-product-table__list-item">
-                                                            <a href="#" class="admin-product-table__link" >
-                                                                <i class="admin-product-table__icon-add fa-solid fa-circle-plus"></i>
-                                                                Thêm
-                                                            </a>
-                                                        </li>
-                                                        <li class="admin-product-table__list-item">
                                                             <a href="#" class="admin-product-table__link">
                                                                 <i class="admin-product-table__icon-detail fa-solid fa-circle-info"></i>
-                                                                Chi tiết sản phẩm
+                                                                Đổi tên
                                                             </a>
                                                         </li>
                                                         <li class="admin-product-table__list-item">
@@ -147,7 +134,7 @@
                                             </tr>
                                         </tbody>
                                     </table>
-                            </div>
+                                </div>
                             <ul class="pagination home-product__pagination">
                                 <!-- <li class="pagination-item">
                                     <a href="" class="pagination-item__link">
@@ -189,13 +176,86 @@
             <footer>
 
             </footer>
+            <!-- Modal ChangeName-->
+            <div class="modal fade" id="modalChangeName" tabindex="-1" role="dialog" aria-labelledby="modalChangeName" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Tên Loại</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>
+                    <div class="modal-body">
+                        <input id="currentName" type="text" class="form-control" hidden>
+                        <input id="catName" type="text" class="form-control">
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-primary" onclick="saveNameCat()">Lưu</button>
+                    </div>
+                </div>
+                </div>
+            </div>
+             <!-- Modal Add new-->
+             <div class="modal fade" id="modalAddNewCat" tabindex="-1" role="dialog" aria-labelledby="modalAddNewCat" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Thêm loại mới</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>
+                    <div class="modal-body" id="modal-body">
+                        <label>Tên loại</label>
+                        <input id="catName" type="text" class="form-control" required>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                    <a href="#" class="btn btn-primary" onclick="addNewCat()">Lưu</a>
+                    </div>
+                </div>
+                </div>
+            </div>
+         <!-- Modal  ListDetail-->
+         <div class="modal fade" id="modalListOrderDetails" tabindex="-1" role="dialog" aria-labelledby="modalListOrderDetails" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Chi tiết đơn hàng</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body" id="body_modaListOrderDetails">
+                    <div class="table-responsive">
+                        <table class="table table-striped mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Ngày mua</th>
+                                    <th>Sản phẩm</th>
+                                    <th>Số lượng</th>
+                                    <th>Giá</th>
+                                    <th>Khuyến mãi</th>
+                                    <th>Thành tiền</th>
+                                </tr>
+                            </thead>
+                            <tbody id ="list-order-details">
+                            </tbody>
+                        </table>
+                    </div>
+                        
+                </div>
+            </div>
+            </div>
         </div>
     </div>
-    <script src="../../assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+          
     <script src="../../assets/js/bootstrap.bundle.min.js"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.0-alpha2/js/bootstrap.min.js" integrity="sha512-r8o3IMbHMsQlcQv/AbejcCasSXqwlwjnstW1Li1MELnRr/d8Fv/vQsOQh4Xu03E3lFpoefqvloTq4ATpHcEzIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="../../assets/js/main.js"></script>
-    <script type="module" src="../../assets/js/pages/product/product.js"></script>
+    <script type="module" src="../../assets/js/pages/category/admin_cat.js"></script>
 
 </body>
 

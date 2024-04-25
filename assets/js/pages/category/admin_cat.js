@@ -403,7 +403,7 @@ window.addNewCat = function (){
         spanTag.innerHTML = "Nhập tên";
         spanTag.className = "text-danger";
         catName.parentNode.insertBefore(spanTag, catName.nextSibling);
-     
+        console.log(catName);
     }
 
 }

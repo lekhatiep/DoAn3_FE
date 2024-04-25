@@ -7,17 +7,20 @@ import logOut from '../../logout.js';
 //Get variables
 var redirectFrom = location.pathname;
 const $ = document.querySelector.bind(document);//Query
+const $$ = document.querySelectorAll.bind(document);//Query
 
 var divCartList = $(".content__cart-list-wrap");
-var quantityTotal = $(".cart__purchase-quantity-total");
-var grandTotal = $(".cart__purchase-price-total");
+var quantityTotal = $$(".cart__purchase-quantity-total");
+var grandTotal = $$(".cart__purchase-price-total");
 var btnCheckAll = $(".cart__purchase-input");
 var textCheckAll = $(".cart__purchase-text");
 var headerCheckAll = $(".header__list-cart-checkbox");
 var btnPurchase = $(".cart__purchase-btn");
 var btnLogout = $('.header__navbar-logout');
+var listFooterCategory = document.querySelector(".footer-list__category");
 
 var cartApi = URL_SERVER_LOCAL + '/api/Carts';
+var categoryApi = URL_SERVER_LOCAL + "/api/Categories";
 
 var accessToken = '';
 async function start(){
@@ -27,6 +30,9 @@ async function start(){
         autoRedirect(redirectFrom);
        
     }else{
+        handleGetListCategory(function(response){
+            renderListCategory(response.data);
+        });
         renderInfoUser(infoLog.accessToken);
         accessToken = infoLog.accessToken;
         await getListCart()
@@ -99,38 +105,63 @@ function renderListCartUser(){
         var html = '';
 
          data.forEach((item,index)=>{
-            html+= `<div class="content__cart-list-item">
-            <input type="checkbox" class="content__cart-item-checkbox check-item-${index}" ${(item.active === true)? 'checked' :'' }>
-            <div class="content__cart-item-info">
-                <a href="">
-                    <div class="content__cart-item-info-img" style="background-image: url('${item.imgPath}');"></div>
-                </a>
-                <div class="content__cart-wrap-title">
-                    <a href="" class="content__cart-item-info-title">                  
-                        ${item.title}                   
-                    </a>
+            html+= `
+            <div class="content__cart-list-item">
+                <div class="row d-flex align-items-center w-100">
+                    <div class="col-1">
+                        <input type="checkbox" class="content__cart-item-checkbox check-item-${index}" ${(item.active === true)? 'checked' :'' }>
+                    </div>
+                    <div class="col-10 col-sm-5 col-md-6 content__cart-item-info">
+                        <a href="">
+                            <div class="content__cart-item-info-img" style="background-image: url('${item.imgPath}');"></div>
+                        </a>
+                        <div class="content__cart-wrap-title d-flex align-items-center">
+                            <a href="" class="content__cart-item-info-title">
+                                ${item.title}
+                            </a>
                     
+                        </div>
+                    </div>
+                    <div class="col-2 d-sm-flex col-sm-2 col-md-1 d-none d-sm-flex justify-content-center content__cart-item-price">${numberWithCommas(item.price)} đ</div>
+                    <div class="col-2 d-none d-sm-flex justify-content-center content__cart-item-quantity">
+                        <div class="content__cart-warp-quantity">
+                            <div class="content__cart-warp-minus minus-item-${index}" data-id='${item.id}'>
+                                <i class="content__cart-minus fa-solid fa-minus"></i>
+                            </div>
+                            <div class="content__cart-warp-current">
+                                <input type="text" class="product__quantity-current product__quantity-${index}"  value="${item.quantity}">
+                            </div>
+                            <div class="content__cart-warp-plus plus-item-${index}" data-id='${item.id}'">
+                                <i class="content__cart-plus fa-solid fa-plus"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-2 col-sm-2 col-md-1 justify-content-center d-none d-md-flex content__cart-item-total item-total-${index}">${numberWithCommas(item.total)} đ</div>
+                    <div class="col-3 col-sm-2 col-md-1 d-none d-sm-flex justify-content-center content__cart-item-action">
+                        <div class="content__cart-item-remove remove__item-${index}" onclick=removeFromCart('${item.id}')>Xóa</div>
+                    </div>
+                </div>
+                
+                <div class="row d-flex align-items-center justify-content-end w-100 d-sm-none mt-3">
+                    <div class="col-3 d-inline-block d-sm-flex col-sm-2 col-md-1 d-flex justify-content-center content__cart-item-price">${numberWithCommas(item.price)} đ</div>
+                    <div class="col-4 d-flex justify-content-center content__cart-item-quantity">
+                        <div class="content__cart-warp-quantity">
+                            <div class="content__cart-warp-minus minus-item-${index}" data-id='${item.id}'>
+                                <i class="content__cart-minus fa-solid fa-minus"></i>
+                            </div>
+                            <div class="content__cart-warp-current">
+                                <input type="text" class="product__quantity-current product__quantity-${index}"  value="${item.quantity}">
+                            </div>
+                            <div class="content__cart-warp-plus plus-item-${index}" data-id='${item.id}'">
+                                <i class="content__cart-plus fa-solid fa-plus"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4 col-sm-2 col-md-1 d-flex justify-content-center content__cart-item-action">
+                        <div class="content__cart-item-remove remove__item-${index}" onclick=removeFromCart('${item.id}')>Xóa</div>
+                    </div>
                 </div>
             </div>
-            <div class="content__cart-item-price">${numberWithCommas(item.price)} đ</div>
-            <div class="content__cart-item-quantity">
-                <div class="content__cart-warp-quantity">
-                    <div class="content__cart-warp-minus minus-item-${index}" data-id='${item.id}'>
-                        <i class="content__cart-minus fa-solid fa-minus"></i>
-                    </div>
-                    <div class="content__cart-warp-current">
-                        <input type="text" class="product__quantity-current product__quantity-${index}"  value="${item.quantity}">
-                    </div>
-                    <div class="content__cart-warp-plus plus-item-${index}" data-id='${item.id}'">
-                        <i class="content__cart-plus fa-solid fa-plus"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="content__cart-item-total item-total-${index}">${numberWithCommas(item.total)} đ</div>
-            <div class="content__cart-item-action">
-                <div class="content__cart-item-remove remove__item-${index}" onclick=removeFromCart('${item.id}')>Xóa</div>
-            </div>
-        </div>
             `
             
         });
@@ -339,8 +370,10 @@ function calculateTotal(){
     })
     
 
-    grandTotal.innerText = numberWithCommas(currentGrandTotal);
-    quantityTotal.innerText = currenTotalQuanityItem;
+    grandTotal[0].innerText = numberWithCommas(currentGrandTotal);
+    grandTotal[1].innerText = numberWithCommas(currentGrandTotal);
+    quantityTotal[0].innerText = currenTotalQuanityItem;
+    quantityTotal[1].innerText = currenTotalQuanityItem;
 
 }
 
@@ -413,3 +446,32 @@ btnPurchase.onclick = function(){
 //Handle click logOut
 
 btnLogout.addEventListener('click', logOut);
+
+function handleGetListCategory(callback){
+
+    fetch(categoryApi +"?pageNumber=1&pageSize=20")
+        .then(function(response){
+            return response.json();
+        })
+        .then(callback)
+
+}
+
+function renderListCategory(categories) {
+    var html = categories.map(function(category){
+        return `
+        <li class="category-item category-item--active">
+        <a href="/pages/category/list-product.html?id=${category.id}" class="category-item__link" onclick="handleClickCategory(${category.id})" >${category.name}</a>
+    </li>    
+        `;
+    });
+
+    var htmlFooterCategory = categories.map(category=>{
+        return `
+        <li class="footer-item">
+        <a href="" class="footer-item__link">${category.name}</a>
+        </li>
+        `
+        })
+    listFooterCategory.innerHTML = htmlFooterCategory.join(' ');
+}

@@ -358,6 +358,9 @@ html {
     .margin-bottom-12 {
         margin-bottom: 12px;
     }
+    .product__detail-social-item{
+        border: none !important;
+    }
 }
 /* Tablet */
 @media (min-width: 768px) and (max-width: 991px) {
@@ -367,6 +370,10 @@ html {
 
     .margin-bottom-12 {
         margin-bottom: 12px;
+    }
+    .product__detail-social-item{
+        border: none !important;
+        margin-bottom: 6px;
     }
 }
 /* Mobile */
@@ -405,6 +412,28 @@ html {
 
     .header__cart-notice {
         right: 16px !important;
+    }
+    .product__detail-rate:after {
+        display: none !important;
+    }
+    .product__discount-list {
+        margin-top: 8px !important;
+    }
+    .product__detail-social-item{
+        border: none !important;
+        margin-bottom: 6px;
+    }
+}
+
+@media screen and (max-width: 571px) {
+    .product__detail-rate:after {
+        display: none !important;
+    }.product__detail-star:after {
+        display: none !important;
+    }
+    .product__detail-social-item{
+        border: none !important;
+        margin-bottom: 6px;
     }
 }
 

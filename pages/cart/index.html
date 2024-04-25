@@ -13,15 +13,19 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../../assets/css/pages/cart/cart.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
 </head>
 <body>
     <div class="app"></div>
     <!-- Header -->
     <header class="header">
-        <div class="grid">
+        <!-- <div class="grid"> -->
+        <div class="container">
             <!-- Header navbar -->
-            <nav class="header__navbar">
-                <ul class="header__navbar-list">
+            <nav class="row header__navbar d-flex justify-content-between">
+                <!-- Left side -->
+                <ul class="col header__navbar-list hide-mobile">
                     <li class="header__navbar-item header__navbar-item--has-qr  header__navbar-item--separate">
                         Vào cửa hàng trên ứng dụng
                         <div class="header__qr">
@@ -47,8 +51,10 @@
                         </a>
                     </li>
                 </ul>
-                <ul class="header__navbar-list">
-                    <li class="header__navbar-item header__navbar-item--has-notify">
+                <!-- Right side -->
+                <ul class="col header__navbar-list d-flex justify-content-end">
+                    <!-- Notification -->
+                    <li class="col-md-3 col-lg-3 ps-lg-5 ps-xl-0 col-xl-2 header__navbar-item header__navbar-item--has-notify">
                         <a href="" class="header__navbar-item-link">
                             <i class="header__navbar-icon fa-regular fa-bell"></i>
                             Thông báo
@@ -91,12 +97,14 @@
                             </footer>
                         </div>
                     </li>
-                    <li class="header__navbar-item">
+                    <!-- Help -->
+                    <li class="col-md-3 col-lg-2 col-xl-2 header__navbar-item">
                         <a href="" class="header__navbar-item-link">
                             <i class="header__navbar-icon fa-regular fa-circle-question"></i>
                             Trợ giúp
                         </a>
                     </li>
+                    <!-- Login logout -->
                     <li class="header__navbar-item header__navbar-item--strong header__navbar-item--separate header__navbar-register">Đăng ký</li>
                     <li class="header__navbar-item header__navbar-item--strong header__navbar-item-login">Đăng nhập</li>
                     <li class="header__navbar-item header__navbar-user hide">
@@ -113,7 +121,7 @@
                                 <a href="">Địa chỉ của tôi</a>
                             </li>
                             <li class="header__navbar-user-item">
-                                <a href="../purchase/index.html">Đơn mua</a>
+                                <a href="./pages/purchase/">Đơn mua</a>
                             </li>
                             <li class="header__navbar-user-item header__navbar-user-item-separate header__navbar-logout">
                                 <a href="">Đăng xuất</a>
@@ -161,17 +169,20 @@
     </header>
 
     <div class="app__container">
-        <div class="grid">
-            <div class="grid__row app-content">   
-                <div class="grid__column-12"> 
+        <!-- <div class="grid"> -->
+        <div class="container">    
+            <div class="row app-content">   
+                <div class="col-12"> 
                     <div class="content__cart-warp">
                         <div class="header__list-cart">
-                            <input type="checkbox" class="header__list-cart-checkbox">
-                            <div class="header__list-cart-product">Sản phẩm</div>
-                            <div class="header__list-cart-price">Đơn giá</div>
-                            <div class="header__list-cart-quantity">Số lượng</div>
-                            <div class="header__list-cart-total">Số tiền</div>
-                            <div class="header__list-cart-action">Thao tác</div>
+                            <div class="col-1">
+                                <input type="checkbox" class="header__list-cart-checkbox">
+                            </div>
+                            <div class="col-4 col-sm-5 col-md-6 header__list-cart-product">Sản phẩm</div>
+                            <div class="col-2 col-sm-2 col-md-1 d-flex d-none d-sm-flex justify-content-center header__list-cart-price">Đơn giá</div>
+                            <div class="col-2 d-flex justify-content-center d-none d-sm-flex header__list-cart-quantity">Số lượng</div>
+                            <div class="col-2 col-sm-2 col-md-1 d-flex justify-content-center d-none d-md-flex header__list-cart-total">Số tiền</div>
+                            <div class="col-3 col-sm-2 col-md-1 d-flex justify-content-center d-none d-sm-flex header__list-cart-action">Thao tác</div>
                         </div>
                         <div class="content__cart-list-wrap">
                            
@@ -313,14 +324,20 @@
                             </div> -->
                         </div>
                         <div class="cart__purchase">
-                            <div class="cart__purchase-wrap-checkall">
-                                <input type="checkbox" class="cart__purchase-input">
+                            <div class="row d-flex align-items-center w-10">
+                                <div class="col-1 cart__purchase-wrap-checkall">
+                                    <input type="checkbox" class="cart__purchase-input">
                                 
-                            </div>    
-                            <span class="cart__purchase-text">Chọn tất cả</span>     
-                            <div class="cart__purchase-remove-checkall">Xóa</div>
-                            <div class="cart__purchase-grand-total" >Tổng thanh toán (  <span class="cart__purchase-quantity-total"> 0 </span> Sản phẩm ): <span class="cart__purchase-price-total">0  </span><span class="text-primary-color"> đ</span></div>
-                            <div class="btn btn--primary cart__purchase-btn">Mua hàng</div>
+                                </div>
+                                <span class="col-4 col-sm-2 cart__purchase-text">Chọn tất cả</span>
+                                <div class="col-1 cart__purchase-remove-checkall">Xóa</div>
+                                <div class="col-6 cart__purchase-grand-total d-none d-lg-flex justify-content-end align-items-center pe-5">Tổng thanh toán (  <span class="cart__purchase-quantity-total"> 0 </span> Sản phẩm ): <span class="cart__purchase-price-total">0  </span><span class="text-primary-color"> đ</span></div>
+                                <div class="col-2 btn btn--primary cart__purchase-btn d-none d-lg-flex justify-content-center align-items-center">Mua hàng</div>
+                            </div>
+                            <div class="row d-flex justify-content-end align-items-center w-100 mt-3 d-lg-none">
+                                <div class="col-10 cart__purchase-grand-total d-flex justify-content-end align-items-center">Tổng thanh toán (  <span class="cart__purchase-quantity-total"> 0 </span> Sản phẩm ): <span class="cart__purchase-price-total">0  </span><span class="text-primary-color"> đ</span></div>
+                                <div class="col-2 btn btn--primary cart__purchase-btn d-flex justify-content-center align-items-center">Mua hàng</div>
+                            </div>
                         </div>
                     </div>
                    
@@ -333,9 +350,9 @@
         </div>
     </div>
     <footer class="footer">
-        <div class="grid">
-            <div class="grid__row">
-                <div class="grid__column-2-4">
+        <div class="container">
+            <div class="row">
+                <div class="col">
                     <h3 class="footer__heading">Chăm sóc khách hàng</h3>
                     <ul class="footer-list">
                         <li class="footer-item">
@@ -349,7 +366,7 @@
                         </li>
                     </ul>
                 </div>
-                <div class="grid__column-2-4">
+                <div class="col">
                     <h3 class="footer__heading">Giới thiệu</h3>
                     <ul class="footer-list">
                         <li class="footer-item">
@@ -363,21 +380,21 @@
                         </li>
                     </ul>
                 </div>
-                <div class="grid__column-2-4">
+                <div class="col">
                     <h3 class="footer__heading">Danh mục</h3>
                     <ul class="footer-list footer-list__category">
                         <li class="footer-item">
-                            <a href="" class="footer-item__link">Trang điểm mặt</a>
+                            <!-- <a href="" class="footer-item__link">Trang điểm mặt</a> -->
                         </li>
                         <li class="footer-item">
-                            <a href="" class="footer-item__link">Trang điểm môi</a>
+                            <!-- <a href="" class="footer-item__link">Trang điểm môi</a> -->
                         </li>
                         <li class="footer-item">
-                            <a href="" class="footer-item__link">Trang điểm mắt</a>
+                            <!-- <a href="" class="footer-item__link">Trang điểm mắt</a> -->
                         </li>
                     </ul>
                 </div>
-                <div class="grid__column-2-4">
+                <div class="col">
                     <h3 class="footer__heading">Theo dõi</h3>
                     <ul class="footer-list">
                         <li class="footer-item">
@@ -400,7 +417,7 @@
                         </li>
                     </ul>
                 </div>
-                <div class="grid__column-2-4">
+                <div class="col hide-tablet">
                     <h3 class="footer__heading">Vào cửa hàng trên ứng dụng</h3>
                     <div class="footer__download">
                         <div class="footer__download-qr">
@@ -425,5 +442,7 @@
         </div>
     </footer>
     <script type="module" src="../../assets/js/pages/cart/cart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
 </body>
 </html>

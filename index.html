@@ -52,7 +52,7 @@
                 <!-- Right side -->
                 <ul class="col header__navbar-list d-flex justify-content-end">
                     <!-- Notification -->
-                    <li class="header__navbar-item header__navbar-item--has-notify">
+                    <li class="col-md-3 col-lg-3 ps-lg-5 ps-xl-0 col-xl-2 header__navbar-item header__navbar-item--has-notify">
                         <a href="" class="header__navbar-item-link">
                             <i class="header__navbar-icon fa-regular fa-bell"></i>
                             Thông báo
@@ -96,7 +96,7 @@
                         </div>
                     </li>
                     <!-- Help -->
-                    <li class="header__navbar-item">
+                    <li class="col-md-3 col-lg-2 col-xl-2 header__navbar-item">
                         <a href="" class="header__navbar-item-link">
                             <i class="header__navbar-icon fa-regular fa-circle-question"></i>
                             Trợ giúp
@@ -185,8 +185,12 @@
                 <!-- Cart layout -->
                 <div class="header__cart">
                     <div class="header__cart-wrap">
-                        <i class="header__cart-icon fa-solid fa-cart-shopping"></i>
-                        <span class="header__cart-notice">0</span>
+                        <!-- <i class="header__cart-icon fa-solid fa-cart-shopping"></i>
+                        <span class="header__cart-notice">0</span> -->
+                        <a href="./pages/cart/" class="header__cart-link">
+                            <i class="header__cart-icon fa-solid fa-cart-shopping"></i>
+                            <span class="header__cart-notice">0</span>
+                        </a>
                         <!-- No car: header__cart-list-no-cart -->
                         <div class="header__cart-list">
                             <img src="./assets/img/no-cart.png" alt="" class="header__cart-no-car-img">

@@ -170,8 +170,15 @@
     background-color: var(--primary-color);
     color: var(--white-color);
     font-size: 1.2rem;
-    margin-left: 10px;
+    /* margin-left: 10px; */
     padding: 2px 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.product__detail-percent-sale > p {
+    margin-bottom: 0;
 }
 
 .product__detail-discount,
@@ -182,7 +189,7 @@
 }
 
 
-.product__detail-discount span,
+.product__detail-discount .product__detail-discount-title,
 .product__detail-quantity span:first-child {
     color: #767676;
     font-size: 1.4rem;
@@ -191,7 +198,7 @@
 
 .product__discount-list{
     display: flex;
-    justify-content:space-between;
+    /* justify-content:space-between; */
 
 }
 
@@ -295,9 +302,10 @@
     flex: 1;
     border-right: solid 1px #e8e8e8;
     justify-content:center;
+    align-items: center;
 }
 
-.product__detail-social-item span,
+.product__detail-social-item > div,
 .product__detail-social-liked span{
     padding-top: 4px;
     font-size: 1.6rem;

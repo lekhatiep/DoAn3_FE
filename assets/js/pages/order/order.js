@@ -8,6 +8,8 @@ import logOut from '../../logout.js';
 //Get variables
 var cartApi = URL_SERVER_LOCAL + '/api/Carts';
 var orderApi = URL_SERVER_LOCAL + '/api/Orders';
+var categoryApi = URL_SERVER_LOCAL + "/api/Categories";
+
 const $ = document.querySelector.bind(document);//Query
 const currentUserId = 1; //Admin
 var divCartList = $(".order__wrap-item");
@@ -22,6 +24,7 @@ var btnOrderInfoBtn = $('.modal__info-btn');
 var modalOrderSuccess = $('.modal__success');
 var btnOrderSuccess = $('.modal__info-btn-success');
 var btnLogout = $('.header__navbar-logout');
+var listFooterCategory = document.querySelector(".footer-list__category");
 
 var redirectFrom = location.pathname;
 var accessToken = '';
@@ -30,11 +33,14 @@ async function start(){
     if(!infoLog.isLogged){
         autoRedirect(redirectFrom);
     }
+    handleGetListCategory(function(response){
+        renderListCategory(response.data);
+    });
 
     renderInfoUser(infoLog.accessToken)
     accessToken = infoLog.accessToken;
     await getListCartItemChecked(infoLog.accessToken)
-   
+    
 }
 
 start();
@@ -85,92 +91,103 @@ function renderListCartUser(){
 
             sumPrice+=(item.price*item.quantity);
 
-            html+= `<div class="order__item">
-            <div class="order__item-supplier">
-                <i class="fa-solid fa-comments-question"></i>
-                <div class="order__item-supplier-name">
-                    <i class="fa-solid fa-store order__item-shop-icon" ></i>
-                    <i class="fa-solid fa-message-pen"></i>
-                     Whoo
-                </div>
-                <a href="#" class="order__item-supplier-chatbox"><i class="fa-solid fa-comments order__item-shop-msg-icon"></i> Chat ngay</a>
-            </div>
-            <div class="order__item-info-wrap">
-                <div class="order__item-info">
-                    <div class="order__item-info-img" style="background-image: url('${item.imgPath}')">
+            html+= `
+                <div class="order__item">
+                    <div class="order__item-supplier">
+                    <i class="fa-solid fa-comments-question"></i>
+                    <div class="order__item-supplier-name">
+                        <i class="fa-solid fa-store order__item-shop-icon" ></i>
+                        <i class="fa-solid fa-message-pen"></i>
+                        Whoo
                     </div>
-                    <div class="order__item-info-title">
-                        <span class="order__item-info-title-text">
-                            ${item.title}
-                        </span>
-                    </div>
+                    <a href="#" class="order__item-supplier-chatbox"><i class="fa-solid fa-comments order__item-shop-msg-icon"></i> Chat ngay</a>
                 </div>
-                <div class="order__item-info-type">Phân loại</div>
-                <div class="order__item-info-price"> ${numberWithCommas(item.price)} <span>đ</span></div>
-                <div class="order__item-info-quantity"> ${item.quantity} </div>
-                <div class="order__item-info-total"> ${numberWithCommas(item.total)} <span>đ</span></div>    
-            </div>
-            
-            <div class="order__item-voucher">    
-                <div class="order__item-voucher-no">
-                    <i class="fa-solid fa-ticket order__item-voucher-no-icon"></i>
-                    <span>Voucher của Shop</span>
-                </div>
-                <div class="order__item-voucher-choose">
-                    <div class="order__item-voucher-btn">
-                        Chọn Voucher
-                    </div>
-                </div>    
-                <div class="order__item-voucher-list"></div>
-            </div>
-        
-            <div class="order__item-message-ship-wrap">
-                <div class="order__item-message">
-                    <div class="order__item-message-wrap">
-                        <span>Lời nhắn : </span>
-                        <div class="order__message-input-box">
-                            <input type="text" class="order__item-message-input" placeholder="Lưu ý cho người bán ...">
+                <div class="order__item-info-wrap">
+                    <div class="row d-flex align-items-center">
+                        <div class="col-12 col-sm-5 col-md-4 col-lg-5 col-xl-6 order__item-info">
+                            <div class="order__item-info-img" style="background-image: url('${item.imgPath}')">
+                            </div>
+                            <div class="order__item-info-title">
+                                <span class="order__item-info-title-text">
+                                    ${item.title}
+                                </span>
+                            </div>
                         </div>
-                    </div>  
+                        <div class="col-3 col-sm-3 col-md-2 d-none d-sm-flex order__item-info-type">Phân loại</div>
+                        <div class="col-2 col-sm-2 col-md-2 col-xl-2 d-flex d-none d-sm-flex justify-content-center order__item-info-price"> ${numberWithCommas(item.price)} <span>đ</span></div>
+                        <div class="col-2 col-lg-1 d-flex justify-content-center d-none d-sm-flex order__item-info-quantity"> x${item.quantity} </div>
+                        <div class="col-2 col-sm-2 col-md-2 col-lg-2 col-xl-1 d-flex justify-content-end d-none d-md-flex order__item-info-total"> ${numberWithCommas(item.total)} <span>đ</span></div>
+                    </div>
+                    <div class="row d-flex d-sm-none justify-content-start align-items-center mt-1">
+                        <div class="offset-3 col-5 d-flex justify-content-start order__item-info-type">Phân loại</div>
+                    </div>
+                    <div class="row d-flex d-sm-none justify-content-start align-items-center mt-1">
+                        <div class="offset-3 col-5 d-flex justify-content-start order__item-info-price"> ${numberWithCommas(item.price)} <span>đ</span></div>
+                        <div class="col-4 d-flex justify-content-center order__item-info-quantity"> x${item.quantity} </div>
+                    </div>
                 </div>
-                <div class="order__item-ship-info">
-                    <span>Đơn vị vận chuyển: </span>
-                    <div class="order__item-ship-wrap">
-                        <div class="order__ship-warp-row">
-                            <div class="order__item-ship-method">
-                                <span>Vận chuyển nhanh quốc tế</span>
-                                <div class="order__item-ship-name">
-                                    Standard Express
+                <div class="order__item-voucher">    
+                    <div class="order__item-voucher-no">
+                        <i class="fa-solid fa-ticket order__item-voucher-no-icon"></i>
+                        <span>Voucher của Shop</span>
+                    </div>
+                    <div class="order__item-voucher-choose">
+                        <div class="order__item-voucher-btn">
+                            Chọn Voucher
+                        </div>
+                    </div>    
+                    <div class="order__item-voucher-list"></div>
+                </div>
+            
+                <div class="order__item-message-ship-wrap">
+                    <!-- <div class="row d-lg-flex d-none"> -->
+                    <div class="row">
+                        <div class="col-12 col-lg-6 order__item-message">
+                            <div class="order__item-message-wrap">
+                                <span>Lời nhắn : </span>
+                                <div class="order__message-input-box">
+                                    <input type="text" class="order__item-message-input" placeholder="Lưu ý cho người bán ...">
                                 </div>
                             </div>
-                            <div class="order__item-ship-btn-change">
-                                Thay đổi
-                            </div>
-                            <div class="order__item-ship-price">
-                                0 <span>đ</span>
-                            </div>
                         </div>
-                        <div class="order__ship-warp-row">
-                            <div class="order__item-ship-time">
-                                
+                        <div class="col-12 col-lg-6 order__item-ship-info">
+                            <span class="ps-0 p-lg-4">Đơn vị vận chuyển: </span>
+                            <div class="order__item-ship-wrap">
+                                <div class="order__ship-warp-row">
+                                    <div class="order__item-ship-method">
+                                        <span>Vận chuyển nhanh quốc tế</span>
+                                        <div class="order__item-ship-name">
+                                            Standard Express
+                                        </div>
+                                    </div>
+                                    <div class="order__item-ship-btn-change">
+                                        Thay đổi
+                                    </div>
+                                    <div class="order__item-ship-price">
+                                        0 <span>đ</span>
+                                    </div>
+                                </div>
+                                <div class="order__ship-warp-row">
+                                    <div class="order__item-ship-time">
+                        
+                                    </div>
+                        
+                                </div>
+                                <div class="order__ship-warp-row">
+                                    <div class="order__item-ship-reason">
+                                        (Do ảnh hưởng bởi Covid19, thời gian giao hàng quốc tế có thể kéo dài hơn dự kiến)
+                                    </div>
+                        
+                                </div>
                             </div>
-                            
-                        </div>
-                        <div class="order__ship-warp-row">
-                            <div class="order__item-ship-reason">
-                                (Do ảnh hưởng bởi Covid19, thời gian giao hàng quốc tế có thể kéo dài hơn dự kiến)
-                            </div>
-                            
                         </div>
                     </div>
                 </div>
-            
+                <div class="order__item-info-sum-total">
+                    Tổng số tiền (<span class="cart__purchase-quantity-total"> ${item.quantity} </span> sản phẩm ): 
+                    <span class="cart__purchase-price-total text-primary-color">${numberWithCommas(item.total)}  </span><span class="text-primary-color"> đ</span>
+                </div>
             </div>
-            <div class="order__item-info-sum-total">
-                Tổng số tiền (<span class="cart__purchase-quantity-total"> ${item.quantity} </span> sản phẩm ): 
-                <span class="cart__purchase-price-total text-primary-color">${numberWithCommas(item.total)}  </span><span class="text-primary-color"> đ</span>
-            </div>
-        </div>
             `
             
         });
@@ -240,3 +257,32 @@ btnOrderSuccess.onclick = (event) => {
 //Handle click logOut
 
 btnLogout.addEventListener('click', logOut);
+
+function handleGetListCategory(callback){
+
+    fetch(categoryApi +"?pageNumber=1&pageSize=20")
+        .then(function(response){
+            return response.json();
+        })
+        .then(callback)
+
+}
+
+function renderListCategory(categories) {
+    var html = categories.map(function(category){
+        return `
+        <li class="category-item category-item--active">
+        <a href="/pages/category/list-product.html?id=${category.id}" class="category-item__link" onclick="handleClickCategory(${category.id})" >${category.name}</a>
+    </li>    
+        `;
+    });
+
+    var htmlFooterCategory = categories.map(category=>{
+        return `
+        <li class="footer-item">
+        <a href="" class="footer-item__link">${category.name}</a>
+        </li>
+        `
+        })
+    listFooterCategory.innerHTML = htmlFooterCategory.join(' ');
+}

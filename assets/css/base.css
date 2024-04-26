@@ -375,6 +375,10 @@ html {
         border: none !important;
         margin-bottom: 6px;
     }
+    .order__item-message {
+        border-bottom: 1px dashed rgba(0,0,0,.09);
+        border-right: none !important;
+    }
 }
 /* Mobile */
 @media screen and (max-width: 767px) {
@@ -423,6 +427,10 @@ html {
         border: none !important;
         margin-bottom: 6px;
     }
+    .order__item-message {
+        border-bottom: 1px dashed rgba(0,0,0,.09);
+        border-right: none !important;
+    }
 }
 
 @media screen and (max-width: 571px) {
@@ -434,6 +442,10 @@ html {
     .product__detail-social-item{
         border: none !important;
         margin-bottom: 6px;
+    }
+    .order__item-message {
+        border-bottom: 1px dashed rgba(0,0,0,.09);
+        border-right: none !important;
     }
 }
 

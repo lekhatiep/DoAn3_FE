@@ -13,15 +13,19 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../../assets/css/pages/purchase/purchase.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
 </head>
 <body>
     <div class="app"></div>
     <!-- Header -->
     <header class="header">
-        <div class="grid">
+        <!-- <div class="grid"> -->
+        <div class="container">
             <!-- Header navbar -->
-            <nav class="header__navbar">
-                <ul class="header__navbar-list">
+            <nav class="row header__navbar d-flex justify-content-between">
+                <!-- Left side -->
+                <ul class="col header__navbar-list hide-mobile">
                     <li class="header__navbar-item header__navbar-item--has-qr  header__navbar-item--separate">
                         Vào cửa hàng trên ứng dụng
                         <div class="header__qr">
@@ -47,8 +51,10 @@
                         </a>
                     </li>
                 </ul>
-                <ul class="header__navbar-list">
-                    <li class="header__navbar-item header__navbar-item--has-notify">
+                <!-- Right side -->
+                <ul class="col header__navbar-list d-flex justify-content-end">
+                    <!-- Notification -->
+                    <li class="col-md-3 col-lg-3 ps-lg-5 ps-xl-0 col-xl-2 header__navbar-item header__navbar-item--has-notify">
                         <a href="" class="header__navbar-item-link">
                             <i class="header__navbar-icon fa-regular fa-bell"></i>
                             Thông báo
@@ -91,12 +97,14 @@
                             </footer>
                         </div>
                     </li>
-                    <li class="header__navbar-item">
+                    <!-- Help -->
+                    <li class="col-md-3 col-lg-2 col-xl-2 header__navbar-item">
                         <a href="" class="header__navbar-item-link">
                             <i class="header__navbar-icon fa-regular fa-circle-question"></i>
                             Trợ giúp
                         </a>
                     </li>
+                    <!-- Login logout -->
                     <li class="header__navbar-item header__navbar-item--strong header__navbar-item--separate header__navbar-register">Đăng ký</li>
                     <li class="header__navbar-item header__navbar-item--strong header__navbar-item-login">Đăng nhập</li>
                     <li class="header__navbar-item header__navbar-user hide">
@@ -104,7 +112,7 @@
                         <span class="header__navbar-user-name">TEO TEO</span>
                         <ul class="header__navbar-user-menu">
                             <li class="header__navbar-user-item">
-                                <a href="./pages/admin/admin.html" target ="blank">Admin Page</a>
+                                <a href="../admin/admin.html" target ="blank">Admin Page</a>
                             </li>
                             <li class="header__navbar-user-item">
                                 <a href="">Tài khoản của tôi</a>
@@ -124,6 +132,7 @@
             </nav>
             <!-- Header search -->
             <div class="header-with-search">
+                <!-- Logo -->
                 <div class="header__logo">
                     <a href="/" class="header__logo-link">
                         <img src="../../assets/images/logo.png" alt="" class="header__logo-img">
@@ -134,6 +143,8 @@
                         </svg> -->
                     </a>
                 </div>
+                <!-- End of logo -->
+                <!-- Search -->
                 <div class="header__search">
                     <div class="header__search-input-wrap">
                         <input type="text" class="header__search-input" placeholder="Nhập để tìm kiếm">
@@ -153,7 +164,7 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="header__search-select">
+                    <div class="header__search-select hide-tablet">
                         <span class="header__search-select-label">Trong shop</span>
                         <i class="header__search-select-icon fa-solid fa-angle-down"></i>
                         <ul class="header__search-option">
@@ -162,7 +173,7 @@
                                 <i class="fa-solid fa-check"></i>
                             </li>
                             <li class="header__search-option-item">
-                                <span>Ngoai shop</span>
+                                <span>Ngoài shop</span>
                                 <i class="fa-solid fa-check"></i>
                             </li>
                         </ul>
@@ -171,11 +182,17 @@
                         <i class="header__search-btn-icon fa-solid fa-magnifying-glass"></i>
                     </button>
                 </div>
+                <!-- End of search -->
+
                 <!-- Cart layout -->
                 <div class="header__cart">
                     <div class="header__cart-wrap">
-                        <i class="header__cart-icon fa-solid fa-cart-shopping"></i>
-                        <span class="header__cart-notice">3</span>
+                        <!-- <i class="header__cart-icon fa-solid fa-cart-shopping"></i>
+                        <span class="header__cart-notice">0</span> -->
+                        <a href="./pages/cart/" class="header__cart-link">
+                            <i class="header__cart-icon fa-solid fa-cart-shopping"></i>
+                            <span class="header__cart-notice">0</span>
+                        </a>
                         <!-- No car: header__cart-list-no-cart -->
                         <div class="header__cart-list">
                             <img src="../../assets/img/no-cart.png" alt="" class="header__cart-no-car-img">
@@ -184,48 +201,30 @@
                             </span>
                             <h3 class="header__cart-list-heading">Sản phẩm đã thêm</h3>
                             <ul class="header__cart-list-item">
-                                <li class="header__cart-item">
-                                    <img src="../../assets/img/sp1.jpg" alt="" class="header__cart-item-img">
-                                    <div class="header__cart-item-info">
-                                        <div class="header__cart-item-head">
-                                            <h5 class="header__cart-item-name">Bộ kem đặt trị mắt, kem đặt trị mắt,Bộ kem đặt trị mắt,Bộ kem đặt trị mắt,Bộ kem đặt trị mắt</h5>
-                                            <div class="header__cart-item-price-warp">
-                                                <span class="header__cart-item-price">2.000.000 đ</span>
-                                                <span class="header__cart-item-head-multiply">x</span>
-                                                <span class="header__cart-item-qty">1</span>
-                                            </div>
-                                        </div>
-                                        <div class="header__cart-item-body">
-                                            <span class="header__cart-item-desc">
-                                                Phân loại: Bạc
-                                            </span>
-                                            <span class="header__cart-item-remove">Xóa</span>
-                                        </div>
-                                    </div>
-                                </li>
+                                
                             </ul>
                             <a class="btn btn--primary header__cart-view-cart">Xem giỏ hàng</a>
                         </div>
                     </div>
                 </div>
+                <!-- End of cart -->
             </div>
         </div>
     </header>
 
     <div class="app__container">
-        <div class="grid">
-            <div class="grid__row app-content">
-                <div class="grid__column-2">
-                    
-                </div>
-                <div class="grid__column-10">
+        <div class="container">
+            <div class="row app-content">
+                <!-- <div class="col-2">
+                </div> -->
+                <div class="offset-sm-1 col-12 col-sm-10">
                     <div class="tab header__tabs">
-                        <div class="tablinks header__tabs-all">Tất cả</div>
-                        <div class="tablinks header__tabs-confirm">Chờ xác nhận</div>
-                        <div class="tablinks header__tabs-wait-receive defaultOpen">Chờ lấy hàng</div>
-                        <div class="tablinks header__tabs-shipping">Đang giao</div>
-                        <div class="tablinks header__tabs-delivered">Đã giao</div>
-                        <div class="tablinks header__tabs-cancel">Đã hủy</div>
+                        <div class="col-2 tablinks header__tabs-all">Tất cả</div>
+                        <div class="col-2 tablinks header__tabs-confirm">Chờ xác nhận</div>
+                        <div class="col-2 tablinks header__tabs-wait-receive defaultOpen">Chờ lấy hàng</div>
+                        <div class="col-2 tablinks header__tabs-shipping">Đang giao</div>
+                        <div class="col-2 tablinks header__tabs-delivered">Đã giao</div>
+                        <div class="col-2 tablinks header__tabs-cancel">Đã hủy</div>
                     </div>
                     <!-- Tab content -->
                     <!-- All -->
@@ -392,9 +391,9 @@
         </div>
     </div>
     <footer class="footer">
-        <div class="grid">
-            <div class="grid__row">
-                <div class="grid__column-2-4">
+        <div class="container">
+            <div class="row">
+                <div class="col">
                     <h3 class="footer__heading">Chăm sóc khách hàng</h3>
                     <ul class="footer-list">
                         <li class="footer-item">
@@ -408,7 +407,7 @@
                         </li>
                     </ul>
                 </div>
-                <div class="grid__column-2-4">
+                <div class="col">
                     <h3 class="footer__heading">Giới thiệu</h3>
                     <ul class="footer-list">
                         <li class="footer-item">
@@ -422,21 +421,21 @@
                         </li>
                     </ul>
                 </div>
-                <div class="grid__column-2-4">
+                <div class="col">
                     <h3 class="footer__heading">Danh mục</h3>
                     <ul class="footer-list footer-list__category">
                         <li class="footer-item">
-                            <a href="" class="footer-item__link">Trang điểm mặt</a>
+                            <!-- <a href="" class="footer-item__link">Trang điểm mặt</a> -->
                         </li>
                         <li class="footer-item">
-                            <a href="" class="footer-item__link">Trang điểm môi</a>
+                            <!-- <a href="" class="footer-item__link">Trang điểm môi</a> -->
                         </li>
                         <li class="footer-item">
-                            <a href="" class="footer-item__link">Trang điểm mắt</a>
+                            <!-- <a href="" class="footer-item__link">Trang điểm mắt</a> -->
                         </li>
                     </ul>
                 </div>
-                <div class="grid__column-2-4">
+                <div class="col">
                     <h3 class="footer__heading">Theo dõi</h3>
                     <ul class="footer-list">
                         <li class="footer-item">
@@ -459,7 +458,7 @@
                         </li>
                     </ul>
                 </div>
-                <div class="grid__column-2-4">
+                <div class="col hide-tablet">
                     <h3 class="footer__heading">Vào cửa hàng trên ứng dụng</h3>
                     <div class="footer__download">
                         <div class="footer__download-qr">
@@ -484,5 +483,7 @@
         </div>
     </footer>
     <script type="module" src="../../assets/js/pages/purchase/purchase.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
 </body>
 </html>

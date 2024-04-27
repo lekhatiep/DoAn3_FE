@@ -7,6 +7,7 @@ import logOut from '../../logout.js';
 import  renderListCart from '../../pages/cart/listCart.js'
 //Get variables
 var orderApi = URL_SERVER_LOCAL + '/api/Orders';
+var categoryApi = URL_SERVER_LOCAL + "/api/Categories";
 var redirectFrom = location.pathname;
 // Variables 
 const $ = document.querySelector.bind(document);//Query
@@ -20,6 +21,7 @@ var tabCancel = $(".header__tabs-cancel");
 var tabDefault = $(".defaultOpen");
 var noContentTab = $('.purchase__no-content');
 var btnLogout = $('.header__navbar-logout');
+var listFooterCategory = document.querySelector(".footer-list__category");
 
 var statusOrder = {
     all : 0,
@@ -42,6 +44,9 @@ async function start() {
         accessToken = infoLog.accessToken;
         renderInfoUser(infoLog.accessToken);
         renderListCart();
+        handleGetListCategory(function(response){
+            renderListCategory(response.data);
+        });
     }
     //Hanlde click each tab
     tabAll.addEventListener('click', e => openTab(e,'all'), false);
@@ -155,61 +160,68 @@ function renderPurchaseItem(data) {
         var htmls = data.map((item,index) => {
              return`
             <div class="purchase__list-item">
-            <div class="purchase__item-wrap">
-                <div class="purchase__item-header-warp">
-                    <div class="purchase__item-header-left">
-                        <i class="fa-solid fa-store item__store-icon"></i>
-                        <span class="item__store-name">Whoo</span>
-                        <div class="item__store-chatbox">
-                            <i class="fa-solid fa-comments item__store-chatbox-icon"></i>
-                            Chat
+                <div class="purchase__item-wrap">
+                    <div class="purchase__item-header-warp">
+                        <div class="col-12 col-md-6 purchase__item-header-left">
+                            <i class="fa-solid fa-store item__store-icon"></i>
+                            <span class="item__store-name">Whoo</span>
+                            <div class="item__store-chatbox">
+                                <i class="fa-solid fa-comments item__store-chatbox-icon"></i>
+                                Chat
+                            </div>
+                            <div class="item__store-goto">
+                                <i class="fa-solid fa-store item__store-goto-icon"></i>
+                                Xem shop
+                            </div>
                         </div>
-                        <div class="item__store-goto">
-                            <i class="fa-solid fa-store item__store-goto-icon"></i>
-                            Xem shop
+
+                        <div class="col-6 d-none d-md-flex justify-content-end purchase__item-header-right">
+                            <div class="item__status">
+                                <i class="fa-solid fa-truck item__status-icon"></i>
+                                Giao hàng thành công
+                                <i class="fa-regular fa-circle-question item__status-icon-question"></i>
+                                <span class="item__status-text">ĐÃ GIAO</span>
+                            </div>
                         </div>
                     </div>
-                    <div class="purchase__item-header-right">
+                           
+                    <div class="purchase__item-content">
+                        
+                        <div class="col-10 item__info">
+                            <div class="col-3 col-sm-2 col-lg-1 item__info-img" style="background-image: url('${item.imgPath}') ;"></div>
+                            <div class="col-8 col-md-6 item__info-details">
+                                <div class="col-12 item__info-title">${item.title}</div>
+                                <div class="col-12 item__info-type">Phân loại:</div>
+                                <div class="col-12 item__info-quantity">x ${item.quantity}</div>
+                            </div>
+                        </div>
+                        <div class="col-2 col-md-1 item__price">
+                            <span class="item__price-original">${numberWithCommas(item.price)}</span>đ
+        
+                            ${item.discount > 0? `<span class="item__price-promotion text-primary-color">${item.discount} </span> <span class="text-primary-color">đ</span>` : ""}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="purchase__item-footer"> 
+                    <div class="col-12 d-flex d-md-none purchase__item-header-right">
                         <div class="item__status">
                             <i class="fa-solid fa-truck item__status-icon"></i>
                             Giao hàng thành công
-                            <i class="fa-regular fa-circle-question item__status-icon-question"></i>
-                            <span class="item__status-text">ĐÃ GIAO</span>
                         </div>
                     </div>
-                </div>
-    
-                <div class="purchase__item-content">
-                    <div class="item__info">
-                        <div class="item__info-img" style="background-image: url('${item.imgPath}') ;"></div>
-                        <div class="item__info-details">
-                            <div class="item__info-title">${item.title}</div>
-                            <div class="item__info-type">Phân loại:</div>
-                            <div class="item__info-quantity">x ${item.quantity}</div>
-                        </div>
-                    </div>
-                    <div class="item__price">
-                        <span class="item__price-original">${numberWithCommas(item.price)}</span> đ
-    
-                        ${item.discount > 0? `<span class="item__price-promotion text-primary-color">${item.discount} </span> <span class="text-primary-color">đ</span>` : ""}
-                    </div>
-                </div>
-            </div>
-            <div class="purchase__item-footer">
-    
-                <div class="item__comment">
-                    Không nhận được đánh giá
-                </div>
-                <div class="item__total-wrap">
                     <div class="item__total">
                         <i class="item__total-icon fa-solid fa-shield-virus"></i>  Tổng số tiền:
                         <span class="item__total-text text-primary-color">${numberWithCommas(item.total)} đ</span>
                     </div>
-                    <div class="btn btn--primary item__reorder-btn reoder-${index}" data-id = ${item.productId}>Mua lại</div>
-                    <div class="btn item__contact-btn">Liên Hệ Người bán</div>
+                    <div class="d-flex justify-content-between align-items-center item__total-wrap">
+                        <div class="item__comment">
+                            Không nhận được đánh giá
+                        </div>
+                        <div class="d-flex justify-content-center align-items-center btn btn--primary item__reorder-btn reoder-${index}" data-id = ${item.productId}>Mua lại</div>
+                    </div>
                 </div>
             </div>
-        </div>
             `
         });
     
@@ -254,4 +266,33 @@ btnLogout.addEventListener('click', logOut);
 
 function renderPurchaseItemAll() {
     
+}
+
+function handleGetListCategory(callback){
+
+    fetch(categoryApi +"?pageNumber=1&pageSize=20")
+        .then(function(response){
+            return response.json();
+        })
+        .then(callback)
+
+}
+
+function renderListCategory(categories) {
+    var html = categories.map(function(category){
+        return `
+        <li class="category-item category-item--active">
+        <a href="/pages/category/list-product.html?id=${category.id}" class="category-item__link" onclick="handleClickCategory(${category.id})" >${category.name}</a>
+    </li>    
+        `;
+    });
+
+    var htmlFooterCategory = categories.map(category=>{
+        return `
+        <li class="footer-item">
+        <a href="" class="footer-item__link">${category.name}</a>
+        </li>
+        `
+        })
+    listFooterCategory.innerHTML = htmlFooterCategory.join(' ');
 }

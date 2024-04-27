@@ -393,7 +393,7 @@ window.addNewCat = function (){
         .then(function(response){
             alert("Thêm thành công");
             location.reload();
-            return response;_
+            return response;
         })
         .then(response =>{
             

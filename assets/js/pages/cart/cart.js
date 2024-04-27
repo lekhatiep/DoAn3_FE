@@ -306,9 +306,10 @@ function UpdateItem(id, quantity,active) {
     
     var data = {
         id : id,
-        quantity: quantity,
+        quantity: parseInt(quantity),
         active: active
     }
+    console.log(typeof data.quantity);
 
     var options = {
         method: 'POST',

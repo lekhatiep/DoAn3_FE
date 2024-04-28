@@ -1,8 +1,12 @@
 console.log("create.js");
 import {checkLogin, autoRedirect} from '../../checkLogged.js'
+import {URL_SERVER_LOCAL} from '../../const.js'
+import {getCookie} from '../../storeCookie.js';
+
 var form = document.querySelector("#admin-product__form-create");
 var redirectFrom = location.pathname;
-var productApi = "https://api.tipslife.site/api/Products";
+var productApi = URL_SERVER_LOCAL + "/api/Products";
+var access_token = getCookie('access_token');
 
 form.onsubmit = function(e){
     e.preventDefault();
@@ -60,7 +64,10 @@ function handleCreateForm(){
 function createProduct(formData,callback){
     var options = {
         method: 'POST',
-        body: formData
+        body: formData,
+        headers: {
+            "Authorization": "Bearer " + access_token
+        }
     };
 
 

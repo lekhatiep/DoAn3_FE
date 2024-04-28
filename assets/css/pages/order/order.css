@@ -177,7 +177,7 @@
 }
 
 .order__item-info-wrap {
-    display: flex;
+    /* display: flex; */
     align-items: center;
     margin-top: 10px;
     border-bottom: 1px dashed rgba(0,0,0,.09);
@@ -280,7 +280,7 @@
 /*order tem ship */
 
 .order__item-message-ship-wrap {
-    display: flex;
+    /* display: flex; */
     border-bottom: 1px dashed rgba(0,0,0,.09);
     background-color: #fafdff;
 }
@@ -449,7 +449,7 @@
 
 .order__payment-wrap-list>span {
     font-size: 2rem;
-    padding-top: 10px
+    /* padding-top: 10px */
 }
 
 .order__payment-list {

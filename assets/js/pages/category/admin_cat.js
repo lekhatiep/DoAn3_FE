@@ -393,7 +393,7 @@ window.addNewCat = function (){
         .then(function(response){
             alert("Thêm thành công");
             location.reload();
-            return response;_
+            return response;
         })
         .then(response =>{
             
@@ -403,7 +403,7 @@ window.addNewCat = function (){
         spanTag.innerHTML = "Nhập tên";
         spanTag.className = "text-danger";
         catName.parentNode.insertBefore(spanTag, catName.nextSibling);
-     
+        console.log(catName);
     }
 
 }

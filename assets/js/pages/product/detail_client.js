@@ -13,6 +13,7 @@ const $ = document.querySelector.bind(document);
 const $$ = document.querySelectorAll.bind(document);
 
 const url = new URL(window.location.href);
+var categoryApi = URL_SERVER_LOCAL + "/api/Categories";
 
 var infoProduct = {
 
@@ -34,7 +35,7 @@ var listCartUl = $('.header__cart-list-item');
 var modal = $('.modal__message');
 var modalWrap = $('.modal__success-warp');
 var btnLogout = $('.header__navbar-logout');
-
+var listFooterCategory = document.querySelector(".footer-list__category");
 
 var redirectFrom = location.pathname + '?id='+paramId;
 console.log(redirectFrom);
@@ -48,6 +49,9 @@ async function start() {
     }else{
         renderInfoUser(infoLog.accessToken)
         renderListCart();
+        handleGetListCategory(function(response){
+            renderListCategory(response.data);
+        });
     }
 
     
@@ -194,3 +198,33 @@ document.addEventListener("visibilitychange", function() {
 //Handle click logOut
 
 btnLogout.addEventListener('click', logOut);
+
+function handleGetListCategory(callback){
+
+    fetch(categoryApi +"?pageNumber=1&pageSize=20")
+        .then(function(response){
+            return response.json();
+        })
+        .then(callback)
+
+}
+
+//Render list category
+function renderListCategory(categories) {
+    var html = categories.map(function(category){
+        return `
+        <li class="category-item category-item--active">
+        <a href="/pages/category/list-product.html?id=${category.id}" class="category-item__link" onclick="handleClickCategory(${category.id})" >${category.name}</a>
+    </li>    
+        `;
+    });
+
+    var htmlFooterCategory = categories.map(category=>{
+        return `
+        <li class="footer-item">
+        <a href="" class="footer-item__link">${category.name}</a>
+        </li>
+        `
+        })
+    listFooterCategory.innerHTML = htmlFooterCategory.join(' ');
+}

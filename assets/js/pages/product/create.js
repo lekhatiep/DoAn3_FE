@@ -2,7 +2,7 @@ console.log("create.js");
 import {checkLogin, autoRedirect} from '../../checkLogged.js'
 var form = document.querySelector("#admin-product__form-create");
 var redirectFrom = location.pathname;
-var productApi = "https://localhost:5001/api/Products";
+var productApi = "https://api.tipslife.site/api/Products";
 
 form.onsubmit = function(e){
     e.preventDefault();

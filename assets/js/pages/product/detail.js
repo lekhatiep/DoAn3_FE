@@ -11,7 +11,7 @@ var quantity = document.querySelector('.admin-product__list-quantity');
 var description = document.querySelector('.admin-product__list-description'); 
 var imageDetail = document.querySelector('.admin-product-detail__img'); 
 
-var productApi = "https://localhost:5001/api/Products";
+var productApi = URL_SERVER_LOCAL +"/api/Products";
 
 btn.onclick = function() {
     window.location.href="./edit_dev.html?id="+paramId;

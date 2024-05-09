@@ -19,7 +19,7 @@ var categoryApi = URL_SERVER_LOCAL + "/api/Categories";
 var userApi = URL_SERVER_LOCAL + "/api/Users";
 
 var pageNumber = 1;
-var pageSize = 15;
+var pageSize = 12;
 var totalPages = 0;
 var page = PAGE_NUMBER_DEFAULT;
 var infoPage ={

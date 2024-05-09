@@ -9,6 +9,7 @@ import {
 import {checkLogin} from './checkLogged.js';
 import logOut from './logout.js';
 import renderListCart from './pages/cart/listCart.js'
+import {numberWithCommas} from './commons.js'
 // import searchHeader from './searchHeader.js';
 
 
@@ -230,7 +231,6 @@ function renderProduct(products){
         }else{
             imgURL = '';
         }
-        
         return `
         <div class="col-lg-3 col-md-4 col-sm-6">
         <!-- Product item -->
@@ -243,8 +243,8 @@ function renderProduct(products){
             </div>
             <h4 class="home-product-item__name">${product.title}</h4>
             <div class="home-product-item__price">
-                <span class="home-product-item__price-old">${product.price} đ</span>
-                <span class="home-product-item__price-current">${Math.floor(product.price - (product.price * 0.4))} đ</span>
+                <span class="home-product-item__price-old">${numberWithCommas(Math.floor(product.price + (product.price * 0.4)))} đ</span>
+                <span class="home-product-item__price-current">${numberWithCommas(product.price )} đ</span>
             </div>
             <div class="home-product-item__action">
                 <span class="home-product-item__like home-product-item__like--liked">

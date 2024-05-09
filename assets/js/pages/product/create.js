@@ -7,6 +7,7 @@ var form = document.querySelector("#admin-product__form-create");
 var redirectFrom = location.pathname;
 var productApi = URL_SERVER_LOCAL + "/api/Products";
 var access_token = getCookie('access_token');
+var listHomeProduct = document.querySelector(".home-product>.grid__row");
 
 form.onsubmit = function(e){
     e.preventDefault();

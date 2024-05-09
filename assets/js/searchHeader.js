@@ -1,4 +1,4 @@
-import {URL_CLIENT_LOCAL, URL_SERVER_LOCAL} from './const.js'
+import {URL_CLIENT_LOCAL, URL_SERVER_LOCAL,URL_HOSTING_LOCAL} from './const.js'
 import { getCookie, setCookie } from './storeCookie.js';
 import { getSession, setSession } from './storeSession.js';
 
@@ -11,12 +11,13 @@ var titleSearch = $('.header__search-history-heading');
 var historySearchList = $('.header__search-history-list');
 var historySearchDiv = $('.header__search-history');
 var typingTimer;                //timer identifier
-var doneTypingInterval = 500;  //time in ms, 5 seconds for example
+var doneTypingInterval = 3000;  //time in ms, 5 seconds for example
 var historySearch = JSON.parse(getSession('historySearch'));
 var productApi = URL_SERVER_LOCAL + '/api/Products/GetProductByName';
 var bodyEl = document.getElementsByTagName("BODY")[0];
 
 var btnSearch = $('.header__search-btn');
+var listHomeProduct = document.querySelector(".home-product>.grid__row");
 
 function start(){
  
@@ -36,8 +37,6 @@ historySearchDiv.addEventListener('click',function(e){
 })
 
 function searchHeader(searchString){
-    console.log('Search header');
-
     fetch(productApi + `?pageNumber=1&pageSize=${pageSize}&Search=${searchString}`)
         .then((res)=>{
             return res.json();
@@ -46,9 +45,10 @@ function searchHeader(searchString){
 
             if(res.data.length > 0){
 
-                historySearch.push(searchString)
-                setSession('historySearch', JSON.stringify(historySearch));
-                console.log(res);
+                if(historySearch.indexOf(searchString) === -1 && searchString !==''){
+                    historySearch.push(searchString)
+                    setSession('historySearch', JSON.stringify(historySearch));
+                }
 
                 titleSearch.innerText = ''
                 historySearchList.style.display = 'block';
@@ -66,12 +66,17 @@ function searchHeader(searchString){
 }
 
 //on keyup, start the countdown
-inputSearch.addEventListener('keyup', function () {
-    console.log(typingTimer);
-    clearTimeout(typingTimer);
+inputSearch.addEventListener('keyup', function (e) {
 
-    typingTimer = setTimeout(()=> searchHeader(inputSearch.value), doneTypingInterval);
-    
+    if(inputSearch.value !== ''){
+        clearTimeout(typingTimer);
+        typingTimer = setTimeout(()=> searchHeader(inputSearch.value), doneTypingInterval);
+    }
+
+    if(e.key === 'Enter' || e.keyCode === 13){
+        searchAndShowData(inputSearch.value.trim());
+    }
+      
   });
   
   //on keydown, clear the countdown 
@@ -89,18 +94,17 @@ function doneTyping () {
 //Render result list
 
 function renderResult(data) {
-
     var html = data.map(item=>{
-
         return `<li class="header__search-history-item">
-            <a href="/pages/category/list-product.html?id=${item.categoryId}" class="header__search-history-link">
+            <a href="/pages/product/detail_client.html?id=${item.id}" class="header__search-history-link">
                 ${item.title}
             </a>
-        </li>
-        `
+                </li>
+            `       
     })
 
     historySearchList.innerHTML = html.join('');
+
 }
 
 // renderHistorySearch
@@ -164,7 +168,94 @@ function bodyClick(){
 btnSearch.onclick = ()=> {
  
     if(inputSearch.value.trim() !== '' || inputSearch.value !== null){
-        searchHeader(inputSearch.value);
+        searchAndShowData(inputSearch.value);
     }
     
+}
+
+function renderProduct(products){
+    
+    var html = products.map((product)=>{
+        var imgURL = '';
+        if(product.productImages.length !== 0){
+            imgURL =  product.productImages[0].imagePath;
+        }else{
+            imgURL = '';
+        }
+        
+        return `
+        <div class="col-lg-3 col-md-4 col-sm-6">
+        <!-- Product item -->
+        <a class="home-product-item" href="${URL_HOSTING_LOCAL}/pages/product/detail_client.html?id=${product.id}"> 
+        <div class="home-product-item__img" 
+            style="background-image: url('${
+                //URL_SERVER_LOCAL +'/'+ imgURL
+                imgURL
+            }')">
+            </div>
+            <h4 class="home-product-item__name">${product.title}</h4>
+            <div class="home-product-item__price">
+                <span class="home-product-item__price-old">${product.price} đ</span>
+                <span class="home-product-item__price-current">${Math.floor(product.price - (product.price * 0.4))} đ</span>
+            </div>
+            <div class="home-product-item__action">
+                <span class="home-product-item__like home-product-item__like--liked">
+                    <i class="fa-solid fa-heart home-product-item__like-fill"></i>
+                    <i class="fa-regular fa-heart home-product-item__like-empty"></i>
+                </span>
+                <div class="home-product-item__rating">
+                    <i class="home-product-item__star-gold fa-solid fa-star"></i>
+                    <i class="home-product-item__star-gold fa-solid fa-star"></i>
+                    <i class="home-product-item__star-gold fa-solid fa-star"></i>
+                    <i class="home-product-item__star-gold fa-solid fa-star"></i>
+                    <i class="home-product-item__star-gold fa-solid fa-star"></i>
+                </div>
+                <span class="home-product-item__sold">88 đã bán</span>
+            </div>
+            <!-- <div class="home-product-item__origin">
+                <spam class="home-product-item__brand">Whoo</spam>
+                <span class="home-product-item__origin-name">Nhật Bản</span>
+            </div> -->
+            <div class="home-product__favourite">
+                <i class="home-product__favourite-icon fa-solid fa-check"></i>
+                <span>Yêu thích</span>
+            </div>
+            <div class="home-product__sale-off">
+                <span class="home-product__sale-off-percent"> 40% </span>
+                <span class="home-product__sale-off-label">GIẢM </span>
+            </div>
+        </a>                                
+    </div>
+        
+        `
+    });
+
+    listHomeProduct.innerHTML = html.join(' ')
+}
+
+function searchAndShowData(searchString){
+
+    fetch(productApi + `?pageNumber=1&pageSize=${pageSize}&Search=${searchString}`)
+        .then((res)=>{
+            return res.json();
+        })
+        .then((res)=>{
+
+            if(res.data.length > 0){
+
+                if(historySearch.indexOf(searchString) === -1 && searchString !==''){
+                    historySearch.push(searchString)
+                    setSession('historySearch', JSON.stringify(historySearch));
+                }
+
+                titleSearch.innerText = ''
+                historySearchList.style.display = 'block';
+                renderProduct(res.data)
+            }else{
+                
+            }
+            
+           
+        })
+   
 }

@@ -5,6 +5,7 @@ import {checkLogin, autoRedirect} from '../../checkLogged.js';
 import {renderInfoUser} from '../../Users/user.js'
 import logOut from '../../logout.js';
 import  renderListCart from '../../pages/cart/listCart.js'
+import {colorOrderStatus, stringOfOrderStatus} from '../../commons.js'
 //Get variables
 var orderApi = URL_SERVER_LOCAL + '/api/Orders';
 var categoryApi = URL_SERVER_LOCAL + "/api/Categories";
@@ -156,8 +157,18 @@ function renderPurchaseItem(data) {
         var purchaseItemList = $(idTabActive+'>.purchase__list');
     
         var html = '';
-    
         var htmls = data.map((item,index) => {
+
+            var strStatus = stringOfOrderStatus(item.status);
+            var colorStatus = colorOrderStatus(item.status);
+            var htmlStatus = `
+                <div class="item__status" style="color: ${colorStatus}">
+                    <i class="fa-solid  ${stringIconStatus(status)}" style="color: ${colorStatus}"></i>
+                    ${strStatus}
+                    <i class="fa-regular fa-circle-question item__status-icon-question"></i>
+                </div>
+                `;
+
              return`
             <div class="purchase__list-item">
                 <div class="purchase__item-wrap">
@@ -176,12 +187,7 @@ function renderPurchaseItem(data) {
                         </div>
 
                         <div class="col-6 d-none d-md-flex justify-content-end purchase__item-header-right">
-                            <div class="item__status">
-                                <i class="fa-solid fa-truck item__status-icon"></i>
-                                Giao hàng thành công
-                                <i class="fa-regular fa-circle-question item__status-icon-question"></i>
-                                <span class="item__status-text">ĐÃ GIAO</span>
-                            </div>
+                            ${htmlStatus}
                         </div>
                     </div>
                            
@@ -295,4 +301,26 @@ function renderListCategory(categories) {
         `
         })
     listFooterCategory.innerHTML = htmlFooterCategory.join(' ');
+}
+
+function stringIconStatus(status){
+    switch (parseInt(status)) {
+        case 1:
+            return "fa-clock";
+            break;
+        case 2:
+            return "fa-clipboard-check"
+        break;
+        case 3:
+            return "fa-truck"
+        break;
+        case 4:
+            return "fa-check"
+        break;
+        case 5:
+            return "fa-trash"
+            break;
+        default:
+            break;
+    }
 }

@@ -23,6 +23,7 @@ var cartApi = URL_SERVER_LOCAL + '/api/Carts';
 var categoryApi = URL_SERVER_LOCAL + "/api/Categories";
 
 var accessToken = '';
+var sumCheckAll = 0;
 async function start(){
 
     var infoLog = await checkLogin();
@@ -105,6 +106,8 @@ function renderListCartUser(){
         var html = '';
 
          data.forEach((item,index)=>{
+            if(item.active) sumCheckAll++;
+
             html+= `
             <div class="content__cart-list-item">
                 <div class="row d-flex align-items-center w-100">
@@ -291,9 +294,9 @@ function UpdateData() {
             if(checkboxItem.checked){
                 active = true;
                 UpdateItem(id,parseInt(quantityItem.value),active)  
-
+                sumCheckAll++;
             }else{
-                
+                sumCheckAll--;
                 active = false;
                 UpdateItem(id,parseInt(quantityItem.value),active) 
             }
@@ -441,7 +444,10 @@ headerCheckAll.onchange = function(){
 //Hanlde click btn purchase 
 btnPurchase.onclick = function(){
 
-    window.location.href = `${URL_HOSTING_LOCAL}/pages/order`;
+    if(sumCheckAll != 0){
+        window.location.href = `${URL_CLIENT_LOCAL}/pages/order`;
+    }
+    
 }
 
 //Handle click logOut

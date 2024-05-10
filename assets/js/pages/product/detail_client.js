@@ -7,6 +7,7 @@ import {checkLogin, autoRedirect} from '../../checkLogged.js'
 import {renderInfoUser} from '../../Users/user.js'
 import logOut from '../../logout.js'
 import { getSession } from '../../storeSession.js';
+import {numberWithCommas} from '../../commons.js'
 //Variables
 
 const $ = document.querySelector.bind(document);
@@ -36,6 +37,8 @@ var modal = $('.modal__message');
 var modalWrap = $('.modal__success-warp');
 var btnLogout = $('.header__navbar-logout');
 var listFooterCategory = document.querySelector(".footer-list__category");
+var cost = $('#cost');
+
 
 var redirectFrom = location.pathname + '?id='+paramId;
 console.log(redirectFrom);
@@ -82,13 +85,14 @@ function handleGetInfoProduct(){
             return response.json();
         }).then((response)=>{
             title.innerText = response.title;
-            price.innerText = response.price;
+            price.innerText = numberWithCommas(response.price);
+            cost.innerHTML = numberWithCommas(response.price + (response.price * 0.4));
             var link =  `url('${response.imagePath}')`;
             imageDetail.style.backgroundImage = link;
             imgList.style.backgroundImage = link;
 
             infoProduct.title = response.title;
-            infoProduct.price = response.price;
+            infoProduct.price = numberWithCommas(response.price);
             infoProduct.id = response.id;
             inputQuantity.value = 1;
 

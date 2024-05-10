@@ -2,7 +2,8 @@ export {
     encodeURLFirebase,
     numberWithCommas,
     stringOfOrderStatus,
-    colorOrderStatus
+    colorOrderStatus,
+    formatNumberWithDots
 };
 
 function encodeURLFirebase(url){
@@ -15,6 +16,13 @@ function encodeURLFirebase(url){
 
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+}
+function formatNumberWithDots(number) {
+    // Format the number using a locale that naturally uses comma as thousand separator
+    let formatted = new Intl.NumberFormat('en-US').format(number);
+
+    // Replace commas with dots
+    return formatted.replace(/,/g, '.');
 }
 
 function stringOfOrderStatus(status){

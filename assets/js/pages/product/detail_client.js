@@ -7,7 +7,7 @@ import {checkLogin, autoRedirect} from '../../checkLogged.js'
 import {renderInfoUser} from '../../Users/user.js'
 import logOut from '../../logout.js'
 import { getSession } from '../../storeSession.js';
-import {numberWithCommas} from '../../commons.js'
+import {numberWithCommas,formatNumberWithDots} from '../../commons.js'
 //Variables
 
 const $ = document.querySelector.bind(document);
@@ -38,6 +38,7 @@ var modalWrap = $('.modal__success-warp');
 var btnLogout = $('.header__navbar-logout');
 var listFooterCategory = document.querySelector(".footer-list__category");
 var cost = $('#cost');
+var description = $('#description_detail');
 
 
 var redirectFrom = location.pathname + '?id='+paramId;
@@ -85,14 +86,15 @@ function handleGetInfoProduct(){
             return response.json();
         }).then((response)=>{
             title.innerText = response.title;
-            price.innerText = numberWithCommas(response.price);
-            cost.innerHTML = numberWithCommas(response.price + (response.price * 0.4));
+            price.innerText = formatNumberWithDots(response.price);
+            cost.innerHTML = formatNumberWithDots(response.price + (response.price * 0.4));
+            description.innerHTML = response.description;
             var link =  `url('${response.imagePath}')`;
             imageDetail.style.backgroundImage = link;
             imgList.style.backgroundImage = link;
 
             infoProduct.title = response.title;
-            infoProduct.price = numberWithCommas(response.price);
+            infoProduct.price = formatNumberWithDots(response.price);
             infoProduct.id = response.id;
             inputQuantity.value = 1;
 

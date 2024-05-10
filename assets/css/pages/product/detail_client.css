@@ -160,7 +160,7 @@
     font-size: 2.2rem;
     color: var(--primary-color);
     padding-left: 10px;
-    margin-right: 10px;
+    margin-right: 20px;
 }
 
 .product__detail-price-current sup {
@@ -387,4 +387,23 @@
     left: 0;
     bottom: 0;
     display: none;
+}
+
+.product__description-wrapper {
+    padding: 0.9rem 0.9rem 0;
+    background-color: #fff;
+    margin-top: 1em !important;
+    margin-bottom: 1em !important;
+    border-radius: .125rem;
+    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .05);
+    overflow: hidden;
+}
+
+.product__description-detail {
+    color: rgba(0, 0, 0, .8);
+    font-size: 1.4rem;
+    line-height: 1.7;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: pre-wrap;
 }

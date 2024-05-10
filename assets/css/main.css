@@ -491,12 +491,13 @@
 
 .header__logo{
     width: 150px;
+    margin-top: 1rem;
 }
 
 .header__logo-img{
     /* width: 120px; */
-    width: 100%;
-    margin-bottom: 10px;
+    width: 90%;
+    /* margin-bottom: 10px; */
     height: 100%;
 }
 .header__logo-link {
@@ -1355,4 +1356,13 @@ i.home-product-item__like-fill{
 .modal__message-register.open {
     animation: fadeIn linear 0.1s;
     display: flex;
+}
+.bg_title{
+    background: rgba(0, 0, 0, .02);
+    color: rgba(0, 0, 0, .87);
+    font-size: 1.4rem;
+    font-weight: 400;
+    margin: 0;
+    padding: .875rem;
+    text-transform: capitalize;
 }

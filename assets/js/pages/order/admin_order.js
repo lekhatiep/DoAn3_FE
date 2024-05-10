@@ -23,9 +23,13 @@ var pageSize = 10;
 var totalPages = 0;
 var page = 1;
 var infoPage ={};
+var orderID = 0;
 
 var listProductBlock = query("#list-products")
 var ulTag = document.querySelector(".pagination");
+var btnSearch = document.querySelector("#btnSearch");
+orderID = document.getElementById('orderIDText').value;
+
 var routePage = location.pathname;
 var redirectFrom = location.pathname;
 var accessToken = '';
@@ -167,7 +171,11 @@ function handleGetDefaultPage(){
 
 //Pagination
 window.Pagination = function (totalPages,page){
-    page =1;
+
+    if(orderID == null || orderID === ''){
+        orderID = 0;
+    }
+
     var options = {
         method: 'GET',
         headers: {
@@ -175,7 +183,7 @@ window.Pagination = function (totalPages,page){
         }
     }
 
-    fetch(orderApi + `/GetListOderPaging?pageNumber=${page}&pageSize=${pageSize}`,options)
+    fetch(orderApi + `/GetListOderPaging?pageNumber=${page}&pageSize=${pageSize}&SearchOrderID=${orderID}`,options)
     .then(function(response){
         return response.json();_
     })
@@ -306,7 +314,6 @@ window.saveStatusOrder = function(){
     var orderId = modalStatusOrder.getAttribute("orderId");
     var status = document.querySelector("#modalStatusOrder #status");
 
-    console.log(status);
     var options = {
         method: 'PUT',
         headers: {
@@ -392,3 +399,32 @@ function renderModalStatusOrder(data){
 
    listOrdeDetailBlock.innerHTML = htmls.join('');
 }
+
+btnSearch.addEventListener('click', () =>{
+
+    orderID = document.getElementById('orderIDText').value;
+    if(orderID == null || orderID === ''){
+        orderID = 0;
+    }
+    console.log("searching...",orderID);
+
+    var options = {
+        method: 'GET',
+        headers: {
+            'Authorization' : `Bearer ${accessToken}`
+        }
+    }
+    return fetch(orderApi + `/GetListOderPaging?pageNumber=${pageNumber}&pageSize=${pageSize}&SearchOrderID=${orderID}`,options)
+        .then(function(response){
+            return response.json();_
+        })
+        .then(response =>{
+            infoPage.pageNumber = response.pageNumber;
+            infoPage.pageSize = response.pageSize;
+            infoPage.totalPages = response.totalPages;
+            infoPage.totalRecord = response.totalRecord;
+            infoPage.currentPage = response.currentPage;
+
+            Pagination(totalPages, infoPage.pageNumber)
+        });
+})

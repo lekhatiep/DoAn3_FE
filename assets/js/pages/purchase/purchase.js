@@ -163,7 +163,7 @@ function renderPurchaseItem(data) {
             var colorStatus = colorOrderStatus(item.status);
             var htmlStatus = `
                 <div class="item__status" style="color: ${colorStatus}">
-                    <i class="fa-solid  ${stringIconStatus(status)}" style="color: ${colorStatus}"></i>
+                    <i class="fa-solid  ${stringIconStatus(item.status)}" style="color: ${colorStatus}"></i>
                     ${strStatus}
                     <i class="fa-regular fa-circle-question item__status-icon-question"></i>
                 </div>

@@ -30,8 +30,8 @@ var inputQuantity = $('.product__quantity-current');
 var btnAddToCart = $('.product__detail-add-cart');
 var cartNoticeNumber = $('.header__cart-notice');
 var paramId = url.searchParams.get("id");
-var productApi = "https://api.tipslife.site/api/Products";
-var cartApi = "https://api.tipslife.site/api/Carts";
+var productApi = URL_SERVER_LOCAL +"/api/Products";
+var cartApi = URL_SERVER_LOCAL +"/api/Carts";
 var listCartUl = $('.header__cart-list-item');
 var modal = $('.modal__message');
 var modalWrap = $('.modal__success-warp');
@@ -152,7 +152,7 @@ async function addTocart(){
         // console.log(getCookie('listCart'));
         var data = {
             productId: infoProduct.id,
-            price: infoProduct.price,
+            price: parseFloat(infoProduct.price.replace(/\./g, '')),
             quantity: parseInt(inputQuantity.value),
             userId: userId,
         }
@@ -165,7 +165,7 @@ async function addTocart(){
             },
             body: JSON.stringify(data)
         }
-        console.table(data.productId, data.price,typeof data.quantity, data.userId);
+   
         fetch(cartApi, options)
             .then(response => 
                 response.json()

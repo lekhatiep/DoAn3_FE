@@ -139,7 +139,7 @@ cursor: text;
 
 .item__status {
     font-size: 1.4rem;
-    color: #00bfa5;
+    font-weight: 600;
 }
 
 .item__status-icon {

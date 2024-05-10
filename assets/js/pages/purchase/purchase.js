@@ -162,6 +162,7 @@ function renderPurchaseItem(data) {
             var strStatus = stringOfOrderStatus(item.status);
             var colorStatus = colorOrderStatus(item.status);
             var htmlStatus = `
+                
                 <div class="item__status" style="color: ${colorStatus}">
                     <i class="fa-solid  ${stringIconStatus(item.status)}" style="color: ${colorStatus}"></i>
                     ${strStatus}
@@ -192,7 +193,7 @@ function renderPurchaseItem(data) {
                     </div>
                            
                     <div class="purchase__item-content">
-                        
+                    <span class="orderIDtext">Mã đặt hàng: ${item.id}</span>
                         <div class="col-10 item__info">
                             <div class="col-3 col-sm-2 col-lg-1 item__info-img" style="background-image: url('${item.imgPath}') ;"></div>
                             <div class="col-8 col-md-6 item__info-details">

@@ -445,7 +445,7 @@ headerCheckAll.onchange = function(){
 btnPurchase.onclick = function(){
 
     if(sumCheckAll != 0){
-        window.location.href = `${URL_CLIENT_LOCAL}/pages/order`;
+        window.location.href = `${URL_HOSTING_LOCAL}/pages/order`;
     }
     
 }

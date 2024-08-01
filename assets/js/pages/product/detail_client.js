@@ -34,12 +34,15 @@ var productApi = URL_SERVER_LOCAL +"/api/Products";
 var cartApi = URL_SERVER_LOCAL +"/api/Carts";
 var listCartUl = $('.header__cart-list-item');
 var modal = $('.modal__message');
+var modalWarning = $('.modal_warning');
+
 var modalWrap = $('.modal__success-warp');
 var btnLogout = $('.header__navbar-logout');
 var listFooterCategory = document.querySelector(".footer-list__category");
 var cost = $('#cost');
 var description = $('#description_detail');
-
+var quantityStockEl = $('.product__quantity-stock');
+var quantityStock = 0;
 
 var redirectFrom = location.pathname + '?id='+paramId;
 console.log(redirectFrom);
@@ -97,7 +100,8 @@ function handleGetInfoProduct(){
             infoProduct.price = formatNumberWithDots(response.price);
             infoProduct.id = response.id;
             inputQuantity.value = 1;
-
+            quantityStockEl.textContent = response.quantity;
+            quantityStock = response.quantity;
         })
 }
 
@@ -106,6 +110,20 @@ function handleGetInfoProduct(){
 btnPlus.onclick = ()=>{
     var currentValue = parseInt( inputQuantity.value);
 
+    if(currentValue + 1 > quantityStock){
+
+        modalWarning.classList.add('open');   
+        setTimeout(function(){
+            modalWarning.classList.add('close');  
+            
+        }, 1000);
+     
+        setTimeout(function(){
+            modalWarning.classList.remove('close');  
+            modalWarning.classList.remove('open');   
+        }, 1200);
+        return;
+    }
     inputQuantity.value = currentValue + 1;
 }
 

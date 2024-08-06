@@ -100,7 +100,7 @@ function renderOrder(orders){
                             Chi tiết đơn hàng
                         </a>
                     </li>
-                    <li class="admin-product-table__list-item" onclick ="handleDeleteOrder(${order.id});">
+                    <li class="admin-product-table__list-item" onclick ="handleDeleteOrder(${order.id},${order.status});">
                         <a href="#" class="admin-product-table__link">
                             <i class="admin-product-table__icon-del fa-solid fa-trash-can"></i>
                             Xóa đơn
@@ -116,8 +116,16 @@ function renderOrder(orders){
 }
 
 // Handle Delete
-window.handleDeleteOrder = function(id){
+window.handleDeleteOrder = function(id, orderStatus) {
 
+    if(orderStatus == 4)// Compeleted
+    {
+        var msg = `Không thể xóa đơn  ${stringOfOrderStatus(orderStatus)}!!`
+        alert(msg);
+        
+        return;
+        
+    }
     var msg = "Bạn có muốn xóa đơn này không?"
     if(!confirm(msg)){
 
@@ -300,11 +308,12 @@ function renderNavigationPaging(totalPages,page){
     ulTag.innerHTML = liTag;
 } 
 
-window.modalUpdateStatusOrder = function(orderId){
+window.modalUpdateStatusOrder = function(orderId, oldStatus){
     var modalStatusOrder = document.getElementById("modalStatusOrder");
     var myModal = new bootstrap.Modal(document.getElementById("modalStatusOrder"), {});
 
     modalStatusOrder.setAttribute("orderId", orderId);
+    modalStatusOrder.setAttribute("oldStatusID", oldStatus);
     myModal.show();
 
 }

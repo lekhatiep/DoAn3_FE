@@ -102,6 +102,7 @@ function handleGetInfoProduct(){
             inputQuantity.value = 1;
             quantityStockEl.textContent = response.quantity;
             quantityStock = response.quantity;
+            inputQuantity.att
         })
 }
 
@@ -146,6 +147,10 @@ inputQuantity.onblur = ()=>{
     var currentValue = parseInt(inputQuantity.value);
     if (typeof(currentValue) === 'number') {
         inputQuantity.value = currentValue;
+
+        if(currentValue > quantityStock){
+            inputQuantity.value = quantityStock;
+        }
     }else{
         inputQuantity.value = 1;
     }

@@ -16,7 +16,7 @@ var paramId = url.searchParams.get("id");
 var productApi = URL_SERVER_LOCAL + "/api/Products/GetProductByCategory?categoryId="+paramId;
 var categoryApi = URL_SERVER_LOCAL + "/api/Categories/categoryId=" + paramId;
 var userApi = URL_SERVER_LOCAL + "/api/Users";
-const detailRoute = URL_CLIENT_LOCAL + "/pages/product/detail_client.html"
+const detailRoute = URL_SERVER_LOCAL + "/pages/product/detail_client.html"
 //Variables
 var pageNumber = 1;
 var pageSize = 5;

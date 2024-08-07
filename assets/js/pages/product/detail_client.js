@@ -148,11 +148,15 @@ inputQuantity.onblur = ()=>{
     if (typeof(currentValue) === 'number') {
         inputQuantity.value = currentValue;
 
-        if(currentValue > quantityStock){
-            inputQuantity.value = quantityStock;
-        }
+       
     }else{
         inputQuantity.value = 1;
+    }
+}
+
+inputQuantity.oninput = ()=>{
+    if(currentValue > quantityStock){
+        inputQuantity.value = quantityStock;
     }
 }
 // Handle add to cart temp
